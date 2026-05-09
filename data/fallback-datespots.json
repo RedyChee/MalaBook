@@ -1,0 +1,26 @@
+{
+  "u_001::u_005": {
+    "restaurantId": "r_001",
+    "reason": "Ri Ri Hong perfectly matches both diners' preference for dry-style mala with spice level 5, featuring their top ingredients like beef tripe, wide hor fun, and lotus root. The iconic hawker stall vibe with lunchtime queues creates the loud-group atmosphere both Wei Lin and Zhi Hao prefer, while the affordable price point makes it ideal for a casual group dining experience."
+  },
+  "u_005::u_001": {
+    "restaurantId": "r_001",
+    "reason": "Ri Ri Hong perfectly matches both diners' preference for dry-style mala with spice level 5, featuring their top ingredients like beef tripe, wide hor fun, and lotus root. The iconic hawker stall vibe with lunchtime queues creates the loud-group atmosphere both Wei Lin and Zhi Hao prefer, while the affordable price point makes it ideal for a casual group dining experience."
+  },
+  "u_001::u_009": {
+    "restaurantId": "r_001",
+    "reason": "Ri Ri Hong perfectly matches both diners' preferences for dry mala with maximum spice level (5), featuring their signature beef tripe, wide hor fun, and lotus root—all top ingredients for Wei Lin. The iconic hawker stall's loud, bustling vibe at People's Park Complex is ideal for the group dining atmosphere both diners seek."
+  },
+  "u_009::u_001": {
+    "restaurantId": "r_001",
+    "reason": "Ri Ri Hong perfectly matches both diners' preferences for dry mala with maximum spice level (5), featuring their signature beef tripe, wide hor fun, and lotus root—all top ingredients for Wei Lin. The iconic hawker stall's loud, bustling vibe at People's Park Complex is ideal for the group dining atmosphere both diners seek."
+  },
+  "u_001::u_007": {
+    "restaurantId": "r_001",
+    "reason": "Ri Ri Hong serves Wei Lin's favorite ingredients (lotus root, wide hor fun, beef tripe) and achieves her preferred dry style with maximum spice level 5, while Daniel's casual vibe is well-accommodated at this iconic hawker stall with pork belly options. The loud-group atmosphere at People's Park Complex Food Centre perfectly matches Wei Lin's preference for group dining energy while remaining accessible for Daniel's more laid-back style."
+  },
+  "u_007::u_001": {
+    "restaurantId": "r_001",
+    "reason": "Ri Ri Hong serves Wei Lin's favorite ingredients (lotus root, wide hor fun, beef tripe) and achieves her preferred dry style with maximum spice level 5, while Daniel's casual vibe is well-accommodated at this iconic hawker stall with pork belly options. The loud-group atmosphere at People's Park Complex Food Centre perfectly matches Wei Lin's preference for group dining energy while remaining accessible for Daniel's more laid-back style."
+  }
+}

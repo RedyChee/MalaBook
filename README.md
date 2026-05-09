@@ -229,12 +229,12 @@ gantt
 - [x] Test in a Node script — sensible matches? *(`scripts/match-smoke.ts`: Wei Lin ↔ Zhi Hao at 94.9%, all encode-checks pass)*
 
 #### `10:45 – 11:20` — AI Route 1: Blurb
-- [ ] `app/api/blurb/route.ts` — POST `{ userA, userB }` → `{ blurb }`
-- [ ] Curl-test, save 3 sample outputs as fallback cache
+- [x] `app/api/blurb/route.ts` — POST `{ userA, userB }` → `{ blurb }` *(Haiku 4.5, non-streaming, falls back to cached blurb on error)*
+- [x] Curl-test, save 3 sample outputs as fallback cache *(`scripts/pregen-fallbacks.ts` → `data/fallback-blurbs.json`, demo-path pairs cached both directions)*
 
 #### `11:20 – 11:55` — AI Route 2: Date Spot
-- [ ] `app/api/datespot/route.ts` — POST `{ userA, userB }` → `{ restaurantId, reason }`
-- [ ] Curl-test, verify JSON output is parseable
+- [x] `app/api/datespot/route.ts` — POST `{ userA, userB }` → `{ restaurantId, reason }` *(Haiku 4.5, JSON output, validates restaurantId against catalogue)*
+- [x] Curl-test, verify JSON output is parseable *(also pregen'd to `data/fallback-datespots.json`)*
 
 #### `11:55 – 12:00` — Commit + Push
 - [ ] Push everything before lunch (in case wifi dies later)

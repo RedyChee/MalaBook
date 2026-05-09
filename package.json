@@ -9,6 +9,7 @@
     "lint": "eslint",
     "smoke": "tsx scripts/smoke.ts",
     "smoke:match": "tsx scripts/match-smoke.ts",
+    "pregen": "tsx scripts/pregen-fallbacks.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
