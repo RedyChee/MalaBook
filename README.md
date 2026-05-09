@@ -237,7 +237,7 @@ gantt
 - [x] Curl-test, verify JSON output is parseable *(also pregen'd to `data/fallback-datespots.json`)*
 
 #### `11:55 – 12:00` — Commit + Push
-- [ ] Push everything before lunch (in case wifi dies later)
+- [x] Push everything before lunch (in case wifi dies later) *(commit `05f5378`)*
 
 ---
 
