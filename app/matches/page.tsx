@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { FeedbackSheet } from "@/components/feedback-sheet";
 import { cn } from "@/lib/utils";
 
-const TOP_K = 3;
+const TOP_K = 5;
 const GROUP_CAP = 3; // 3 matches + me = 4-person table
 
 type Card = {

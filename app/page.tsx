@@ -74,7 +74,7 @@ export default function Home() {
       </div>
 
       <footer className="px-8 pb-8 pt-4 text-center text-[10px] text-[var(--mala-charcoal)]/40 tracking-wider uppercase">
-        Demo · 10 seed users · 20 SG mala spots · Claude Haiku 4.5
+        Demo · 20 seed users · 20 SG mala spots · Claude Haiku 4.5
       </footer>
     </main>
   );

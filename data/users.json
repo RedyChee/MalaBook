@@ -389,5 +389,395 @@
       0,
       1
     ]
+  },
+  {
+    "id": "u_011",
+    "name": "Nur Aisyah",
+    "age": 26,
+    "gender": "woman",
+    "interestedIn": "men",
+    "bio": "Halal mala convert. Tau pok soaks up the soup like nothing else.",
+    "flavorProfile": {
+      "style": "soup",
+      "spiceLevel": 3,
+      "topIngredients": [
+        "fish slices",
+        "fish balls",
+        "tau pok",
+        "shanghai greens",
+        "shiitake mushrooms",
+        "egg tofu"
+      ],
+      "brothPreference": "split",
+      "vibe": "intimate-booth"
+    },
+    "avatar": "/avatars/u_011.png",
+    "flavorVector": [
+      0.15,
+      0.9,
+      0.6,
+      0.1,
+      0.55,
+      0,
+      0.5,
+      0,
+      0.5,
+      1,
+      0,
+      0,
+      0.5,
+      0.5
+    ]
+  },
+  {
+    "id": "u_012",
+    "name": "Vikram Raj",
+    "age": 38,
+    "gender": "man",
+    "interestedIn": "women",
+    "bio": "Tamil engineer. I treat málà like masala — layered, not lazy.",
+    "flavorProfile": {
+      "style": "dry",
+      "spiceLevel": 5,
+      "topIngredients": [
+        "beef tripe",
+        "lamb slices",
+        "chicken thigh",
+        "wide hor fun",
+        "kangkong",
+        "lotus root"
+      ],
+      "brothPreference": "mala",
+      "vibe": "loud-group"
+    },
+    "avatar": "/avatars/u_012.png",
+    "flavorVector": [
+      0.9,
+      0.15,
+      1,
+      1,
+      0.9,
+      0.5,
+      0.5,
+      0.5,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "u_013",
+    "name": "Jules Tan",
+    "age": 28,
+    "gender": "nonbinary",
+    "interestedIn": "everyone",
+    "bio": "Flavor omnivore. Pork belly today, enoki tomorrow, judgment never.",
+    "flavorProfile": {
+      "style": "both",
+      "spiceLevel": 4,
+      "topIngredients": [
+        "pork belly",
+        "enoki mushrooms",
+        "egg tofu",
+        "kangkong",
+        "fish balls",
+        "lotus root"
+      ],
+      "brothPreference": "mala",
+      "vibe": "casual"
+    },
+    "avatar": "/avatars/u_013.png",
+    "flavorVector": [
+      0.5,
+      0.5,
+      0.8,
+      0.5,
+      0.9,
+      0,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0,
+      0,
+      0.5
+    ]
+  },
+  {
+    "id": "u_014",
+    "name": "Hafiz Ismail",
+    "age": 30,
+    "gender": "man",
+    "interestedIn": "women",
+    "bio": "Beef belly until I drop. Halal mala spots only — Chong Qing Grilled isn't it for me.",
+    "flavorProfile": {
+      "style": "dry",
+      "spiceLevel": 4,
+      "topIngredients": [
+        "beef slices",
+        "chicken thigh",
+        "instant noodles",
+        "kangkong",
+        "tau pok",
+        "fish cake"
+      ],
+      "brothPreference": "mala",
+      "vibe": "casual"
+    },
+    "avatar": "/avatars/u_014.png",
+    "flavorVector": [
+      0.9,
+      0.15,
+      0.8,
+      0.5,
+      0.9,
+      0.5,
+      0.5,
+      0,
+      0,
+      0.5,
+      1,
+      0,
+      0.5,
+      0
+    ]
+  },
+  {
+    "id": "u_015",
+    "name": "Anjali Pillai",
+    "age": 24,
+    "gender": "woman",
+    "interestedIn": "everyone",
+    "bio": "Vegetarian — mushroom broth supremacy. Tofu in five forms or it's not a meal.",
+    "flavorProfile": {
+      "style": "soup",
+      "spiceLevel": 1,
+      "topIngredients": [
+        "enoki mushrooms",
+        "shiitake mushrooms",
+        "tofu puffs",
+        "egg tofu",
+        "shanghai greens",
+        "lotus root"
+      ],
+      "brothPreference": "mushroom",
+      "vibe": "casual"
+    },
+    "avatar": "/avatars/u_015.png",
+    "flavorVector": [
+      0.15,
+      0.9,
+      0.2,
+      0.5,
+      0.25,
+      0,
+      0.5,
+      0.5,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "u_016",
+    "name": "Khye Lim",
+    "age": 31,
+    "gender": "nonbinary",
+    "interestedIn": "everyone",
+    "bio": "Ex-line-cook. Umami first, theatrics never. Split broth is engineering.",
+    "flavorProfile": {
+      "style": "both",
+      "spiceLevel": 3,
+      "topIngredients": [
+        "shiitake mushrooms",
+        "king oyster mushrooms",
+        "pork belly",
+        "fish slices",
+        "fresh beancurd sheets",
+        "wide hor fun"
+      ],
+      "brothPreference": "split",
+      "vibe": "intimate-booth"
+    },
+    "avatar": "/avatars/u_016.png",
+    "flavorVector": [
+      0.5,
+      0.5,
+      0.6,
+      0.1,
+      0.55,
+      0.5,
+      0,
+      0,
+      1,
+      0.5,
+      0.5,
+      0,
+      0.5,
+      0
+    ]
+  },
+  {
+    "id": "u_017",
+    "name": "Linda Ng",
+    "age": 41,
+    "gender": "woman",
+    "interestedIn": "men",
+    "bio": "Hotpot since the '94 days at Beach Road. Tomato base, fish balls, no fuss.",
+    "flavorProfile": {
+      "style": "soup",
+      "spiceLevel": 2,
+      "topIngredients": [
+        "chicken",
+        "fish slices",
+        "fish balls",
+        "chinese cabbage",
+        "shiitake mushrooms",
+        "fresh beancurd sheets"
+      ],
+      "brothPreference": "tomato",
+      "vibe": "loud-group"
+    },
+    "avatar": "/avatars/u_017.png",
+    "flavorVector": [
+      0.15,
+      0.9,
+      0.4,
+      1,
+      0.15,
+      0,
+      0.5,
+      0,
+      0.5,
+      0.5,
+      0.5,
+      0,
+      0.5,
+      0.5
+    ]
+  },
+  {
+    "id": "u_018",
+    "name": "Theo Chong",
+    "age": 36,
+    "gender": "man",
+    "interestedIn": "women",
+    "bio": "Dad-mode mala — split broth so the kids can eat too. Lap cheong always goes in.",
+    "flavorProfile": {
+      "style": "both",
+      "spiceLevel": 3,
+      "topIngredients": [
+        "pork belly",
+        "beef meatballs",
+        "lap cheong",
+        "wide hor fun",
+        "lotus root",
+        "fish balls"
+      ],
+      "brothPreference": "split",
+      "vibe": "casual"
+    },
+    "avatar": "/avatars/u_018.png",
+    "flavorVector": [
+      0.5,
+      0.5,
+      0.6,
+      0.5,
+      0.55,
+      0.5,
+      0,
+      0.5,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0.5
+    ]
+  },
+  {
+    "id": "u_019",
+    "name": "Faruq Hassan",
+    "age": 27,
+    "gender": "man",
+    "interestedIn": "men",
+    "bio": "Sichuan peppercorns are my love language. Numbing tongue, clear conscience.",
+    "flavorProfile": {
+      "style": "dry",
+      "spiceLevel": 5,
+      "topIngredients": [
+        "beef slices",
+        "chicken wings",
+        "wide hor fun",
+        "kangkong",
+        "fish balls",
+        "tau pok"
+      ],
+      "brothPreference": "mala",
+      "vibe": "loud-group"
+    },
+    "avatar": "/avatars/u_019.png",
+    "flavorVector": [
+      0.9,
+      0.15,
+      1,
+      1,
+      0.9,
+      0.5,
+      0.5,
+      0,
+      0,
+      0.5,
+      1,
+      0,
+      0,
+      0.5
+    ]
+  },
+  {
+    "id": "u_020",
+    "name": "Hana Lim",
+    "age": 25,
+    "gender": "woman",
+    "interestedIn": "women",
+    "bio": "Cheese tofu evangelist. If it's not crispy on the outside molten inside, send it back.",
+    "flavorProfile": {
+      "style": "both",
+      "spiceLevel": 4,
+      "topIngredients": [
+        "cheese tofu",
+        "cheese rice cake",
+        "pork belly",
+        "enoki mushrooms",
+        "wide hor fun",
+        "shanghai greens"
+      ],
+      "brothPreference": "mala",
+      "vibe": "loud-group"
+    },
+    "avatar": "/avatars/u_020.png",
+    "flavorVector": [
+      0.5,
+      0.5,
+      0.8,
+      1,
+      0.9,
+      0.5,
+      0.5,
+      0,
+      0.5,
+      0,
+      0.5,
+      0,
+      0,
+      1
+    ]
   }
 ]
