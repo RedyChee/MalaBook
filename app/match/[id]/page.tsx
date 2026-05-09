@@ -4,12 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import { ArrowLeft, Flame, Loader2, MapPin, Sparkles, Send } from "lucide-react";
-import { toast } from "sonner";
+import { ArrowLeft, Flame, Loader2, MapPin, Sparkles, Send, X } from "lucide-react";
 import users from "@/data/users.json";
 import restaurants from "@/data/restaurants.json";
 import { cosineSimilarity } from "@/lib/match";
 import { spiceBadge } from "@/lib/spice-badge";
+import { computeCompatibility, heatColor } from "@/lib/compatibility";
+import { TIME_OPTIONS, bookingForUser } from "@/lib/bookings";
+import type { Booking } from "@/lib/bookings";
 import type { Restaurant, User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -31,6 +33,13 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
   const [me, setMe] = useState<User | null>(null);
   const [dateSpot, setDateSpot] = useState<DateSpotResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [existingBooking, setExistingBooking] = useState<Booking | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+    setExistingBooking(bookingForUser(id));
+  }, [id]);
 
   useEffect(() => {
     const raw =
@@ -93,6 +102,7 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
   const restaurant = dateSpot
     ? allRestaurants.find((r) => r.id === dateSpot.restaurantId) ?? null
     : null;
+  const breakdown = computeCompatibility(me.flavorProfile, matched.flavorProfile);
 
   return (
     <main className="flex flex-col h-full min-h-screen bg-[var(--mala-cream)]">
@@ -166,6 +176,27 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
           </div>
         </section>
 
+        {/* Compatibility breakdown */}
+        <section className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Flame className="w-4 h-4 text-[var(--mala-red)]" />
+            <h3 className="text-[11px] uppercase tracking-widest text-[var(--mala-charcoal)]/55 font-semibold">
+              Why you mala
+            </h3>
+          </div>
+          <div className="bg-white rounded-2xl border border-[var(--border)] p-4 flex flex-col gap-3.5">
+            {breakdown.axes.map((ax) => (
+              <CompatBar
+                key={ax.key}
+                label={ax.label}
+                score={ax.score}
+                caption={ax.caption}
+                shared={ax.shared}
+              />
+            ))}
+          </div>
+        </section>
+
         {/* AI date pick */}
         <section className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
@@ -179,21 +210,101 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
       </div>
 
       <div className="sticky bottom-0 px-5 py-4 bg-[var(--mala-cream)]/95 backdrop-blur border-t border-[var(--border)]">
-        <Button
-          onClick={() => {
-            toast.success("Sent! 🌶️", {
-              description: `${matched.name} will see your date suggestion.`,
-            });
-          }}
-          disabled={!dateSpot}
-          size="lg"
-          className="w-full h-14 rounded-2xl bg-[var(--mala-red)] hover:bg-[var(--mala-red)]/90 text-[var(--mala-cream)] font-semibold disabled:bg-[var(--mala-charcoal)]/15 disabled:text-[var(--mala-charcoal)]/40 shadow-lg shadow-[var(--mala-red)]/30"
-        >
-          Suggest This Date
-          <Send className="w-5 h-5 ml-1" />
-        </Button>
+        {existingBooking ? (
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="w-full h-14 rounded-2xl border-[var(--mala-red)]/40 text-[var(--mala-red)] font-semibold"
+          >
+            <Link href={`/match/${matched.id}/chat?time=${existingBooking.id.split(":")[0]}&booked=1`}>
+              🍲 Date booked · {existingBooking.when}
+            </Link>
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setSheetOpen(true)}
+            disabled={!dateSpot || !restaurant}
+            size="lg"
+            className="w-full h-14 rounded-2xl bg-[var(--mala-red)] hover:bg-[var(--mala-red)]/90 text-[var(--mala-cream)] font-semibold disabled:bg-[var(--mala-charcoal)]/15 disabled:text-[var(--mala-charcoal)]/40 shadow-lg shadow-[var(--mala-red)]/30"
+          >
+            Suggest This Date
+            <Send className="w-5 h-5 ml-1" />
+          </Button>
+        )}
       </div>
+
+      {sheetOpen && restaurant && (
+        <TimeChipSheet
+          matchedName={matched.name}
+          restaurantName={restaurant.name}
+          onClose={() => setSheetOpen(false)}
+          onPick={(timeId) => {
+            router.push(`/match/${matched.id}/chat?time=${timeId}&r=${restaurant.id}`);
+          }}
+        />
+      )}
     </main>
+  );
+}
+
+function TimeChipSheet({
+  matchedName,
+  restaurantName,
+  onClose,
+  onPick,
+}: {
+  matchedName: string;
+  restaurantName: string;
+  onClose: () => void;
+  onPick: (timeId: string) => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center">
+      <button
+        type="button"
+        aria-label="Close"
+        onClick={onClose}
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+      />
+      <div className="relative w-full max-w-[420px] bg-[var(--mala-cream)] rounded-t-3xl border-t border-[var(--border)] shadow-2xl px-5 py-5 flex flex-col gap-4 animate-in slide-in-from-bottom-8 duration-300">
+        <div className="flex items-start justify-between">
+          <div>
+            <div className="text-[10px] tracking-widest uppercase text-[var(--mala-charcoal)]/50">
+              Suggest a time
+            </div>
+            <div className="font-heading text-base text-[var(--mala-charcoal)] mt-0.5">
+              {restaurantName} with {matchedName}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="text-[var(--mala-charcoal)]/40 hover:text-[var(--mala-charcoal)]"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="flex flex-col gap-2">
+          {TIME_OPTIONS.map((opt) => (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => onPick(opt.id)}
+              className="rounded-2xl border-2 border-[var(--border)] bg-white px-4 py-3 text-left flex items-center gap-3 transition active:scale-[0.98] hover:border-[var(--mala-red)]/40"
+            >
+              <div className="text-2xl">{opt.emoji}</div>
+              <div className="flex-1">
+                <div className="font-semibold text-sm text-[var(--mala-charcoal)]">{opt.label}</div>
+                <div className="text-[11px] text-[var(--mala-charcoal)]/55">{opt.caption}</div>
+              </div>
+              <Send className="w-4 h-4 text-[var(--mala-red)]/60" />
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -255,6 +366,48 @@ function DateSpotCard({
           </span>
         ))}
       </div>
+    </div>
+  );
+}
+
+function CompatBar({
+  label,
+  score,
+  caption,
+  shared,
+}: {
+  label: string;
+  score: number;
+  caption: string;
+  shared?: string[];
+}) {
+  const pct = Math.round(score * 100);
+  const color = heatColor(score);
+  return (
+    <div className="flex flex-col gap-1">
+      <div className="flex items-baseline justify-between gap-2">
+        <span className="text-xs font-semibold text-[var(--mala-charcoal)]">{label}</span>
+        <span className="text-[10px] font-mono text-[var(--mala-charcoal)]/45">{pct}%</span>
+      </div>
+      <div className="h-1.5 w-full rounded-full bg-[var(--mala-charcoal)]/8 overflow-hidden">
+        <div
+          className="h-full rounded-full transition-all"
+          style={{ width: `${pct}%`, background: color }}
+        />
+      </div>
+      <p className="text-[11px] text-[var(--mala-charcoal)]/60 leading-tight">{caption}</p>
+      {shared && shared.length > 0 && (
+        <div className="flex flex-wrap gap-1 pt-1">
+          {shared.slice(0, 5).map((s) => (
+            <span
+              key={s}
+              className="text-[10px] px-1.5 py-0.5 rounded-full bg-[var(--mala-orange)]/10 text-[var(--mala-orange)] font-medium"
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

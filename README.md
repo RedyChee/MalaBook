@@ -281,6 +281,44 @@ gantt
 
 ---
 
+### Block 3 — Beyond MVP (because we're ahead of schedule 🌶️)
+
+> **Goal:** turn the MVP into something that *actually* feels like a legit mala dating app.
+> Spec'd via /grill-me on 2026-05-09. Build order: profile → score breakdown → booking loop → group hotpot. Each stands alone.
+
+#### F6 — Self profile / "Your flavor card"
+- [x] Add age question (Q0) + 6-emoji avatar picker to `/onboarding`
+- [x] Auto-generate bio from title + top ingredients on submit
+- [x] Add `lib/title.ts` — derived title badge from FlavorProfile (e.g. "Soup Diplomat", "Sichuan Soulmate", "Bridge Builder")
+- [x] Add `lib/compatibility.ts` — 5-axis breakdown helpers (also reused by F7)
+- [x] Build `/profile` route: avatar hero, name/age, title badge, 5-bar flavor breakdown, top ingredients, "Edit profile" CTA
+- [x] Wire avatar tap in `/matches` header → `/profile`
+
+#### F7 — "Why 87%?" compatibility breakdown
+- [x] Use `lib/compatibility.ts` to compute 5 axes per pair (numbing sync, broth alignment, pot style, ingredient overlap, vibe sync)
+- [x] Add "Why you mala" section to `/match/[id]` between bio and AI date pick — 5 horizontal heat-styled bars + 1-line caption per axis
+- [x] Show shared ingredient chips inline under "Ingredient overlap" axis
+- [x] Update `lib/prompts.ts` blurb + datespot prompts to accept axis scores; instruct LLM to reference strongest + weakest axis specifically
+
+#### F8 — Mutual match / booking loop *(replaces dead-end toast)*
+- [x] Add `lib/bookings.ts` — unified `Booking` schema (`{id, type: "solo"|"group", participantIds, restaurantId, when}`) + sessionStorage helpers
+- [x] Replace `Suggest This Date` button on `/match/[id]` with a time-chip bottom sheet (Fri 8pm / Sat 7pm / Sun 6pm — flavor-coded captions)
+- [x] Add `/api/chat-reply` route — Claude returns `{reaction, accept}` JSON
+- [x] Build `/match/[id]/chat` route — opening user bubble + typing indicator + 2 staggered Claude bubbles + Confirm CTA
+- [x] Confirm writes Booking to sessionStorage → success state on chat
+- [x] Add "Your plans" collapsible top strip to `/matches` — one row per Booking
+- [x] Per-card badge replaces "View Date Idea" CTA when that user is in any Booking
+
+#### F9 — Group hotpot mode *(the signature mala-native feature)*
+- [x] Add `[ Solo · Group 🍲 ]` toggle on top of `/matches`
+- [x] Group mode: cards become checkboxes (cap 3 = 4-person table), sticky CTA shows count
+- [x] Add `/api/group-datespot` route — pick group-friendly venue from 4 profiles
+- [x] Add `/api/group-chat-reply` route — single Claude call returns `[{userId, reaction, accept}, ...]` for all 3 matches
+- [x] Build `/match/group/[sessionId]` route — group chat thread, 3 avatars in header, sequential typing + 2-bubble replies (~2s gap each)
+- [x] Confirm CTA after all 3 reply → write group Booking, all 3 cards show group badge
+
+---
+
 ### Submission Window: 4:30 – 5:00 PM
 
 - [ ] Final commit + push

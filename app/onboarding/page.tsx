@@ -14,6 +14,7 @@ import {
   STYLE_OPTIONS,
   VIBE_OPTIONS,
 } from "@/lib/onboarding-options";
+import { autoBio } from "@/lib/title";
 import type {
   BrothPreference,
   DiningVibe,
@@ -25,10 +26,13 @@ import type {
 import { cn } from "@/lib/utils";
 
 const MAX_INGREDIENTS = 8;
+const AVATAR_OPTIONS = ["🦁", "🐲", "🦊", "🐯", "🌶️", "🦀"];
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [avatar, setAvatar] = useState<string | null>(null);
   const [style, setStyle] = useState<FlavorStyle | null>(null);
   const [spice, setSpice] = useState<SpiceLevel | null>(null);
   const [ingredients, setIngredients] = useState<string[]>([]);
@@ -36,17 +40,24 @@ export default function OnboardingPage() {
   const [vibe, setVibe] = useState<DiningVibe | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const ageNum = useMemo(() => {
+    const n = parseInt(age, 10);
+    return Number.isFinite(n) && n >= 18 && n <= 99 ? n : null;
+  }, [age]);
+
   const isValid = useMemo(
     () =>
       Boolean(
         name.trim() &&
+          ageNum !== null &&
+          avatar &&
           style &&
           spice !== null &&
           ingredients.length > 0 &&
           broth &&
           vibe,
       ),
-    [name, style, spice, ingredients, broth, vibe],
+    [name, ageNum, avatar, style, spice, ingredients, broth, vibe],
   );
 
   function toggleIngredient(item: string) {
@@ -60,7 +71,7 @@ export default function OnboardingPage() {
   }
 
   function handleSubmit() {
-    if (!isValid || !style || !spice || !broth || !vibe) return;
+    if (!isValid || !style || !spice || !broth || !vibe || !avatar || ageNum === null) return;
     setSubmitting(true);
     const profile: FlavorProfile = {
       style,
@@ -69,13 +80,14 @@ export default function OnboardingPage() {
       brothPreference: broth,
       vibe,
     };
+    const trimmedName = name.trim();
     const me: User = {
       id: "u_self",
-      name: name.trim(),
-      age: 0,
-      bio: "",
+      name: trimmedName,
+      age: ageNum,
+      bio: autoBio(profile, trimmedName),
       flavorProfile: profile,
-      avatar: "",
+      avatar,
       flavorVector: encodeProfile(profile),
     };
     sessionStorage.setItem("currentUser", JSON.stringify(me));
@@ -105,19 +117,50 @@ export default function OnboardingPage() {
       </header>
 
       <div className="flex-1 px-5 py-6 flex flex-col gap-8">
-        {/* Name */}
-        <Section index={0} title="What do they call you?">
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your first name"
-            maxLength={32}
-            className="h-12 rounded-xl bg-white border-[var(--border)] text-base"
-          />
+        {/* Name + age */}
+        <Section index={0} title="The basics">
+          <div className="flex gap-2">
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your first name"
+              maxLength={32}
+              className="h-12 rounded-xl bg-white border-[var(--border)] text-base flex-1"
+            />
+            <Input
+              value={age}
+              onChange={(e) => setAge(e.target.value.replace(/[^0-9]/g, "").slice(0, 2))}
+              placeholder="Age"
+              inputMode="numeric"
+              className="h-12 rounded-xl bg-white border-[var(--border)] text-base w-20 text-center"
+            />
+          </div>
+        </Section>
+
+        {/* Avatar */}
+        <Section index={1} title="Pick your vibe avatar">
+          <div className="grid grid-cols-6 gap-2">
+            {AVATAR_OPTIONS.map((emoji) => (
+              <button
+                key={emoji}
+                type="button"
+                onClick={() => setAvatar(emoji)}
+                aria-label={`Avatar ${emoji}`}
+                className={cn(
+                  "aspect-square rounded-2xl border-2 flex items-center justify-center text-3xl transition active:scale-[0.92]",
+                  avatar === emoji
+                    ? "border-[var(--mala-red)] bg-[var(--mala-red)]/10 ring-2 ring-[var(--mala-red)] ring-offset-2 ring-offset-[var(--mala-cream)]"
+                    : "border-[var(--border)] bg-white hover:border-[var(--mala-red)]/40",
+                )}
+              >
+                {emoji}
+              </button>
+            ))}
+          </div>
         </Section>
 
         {/* Q1 — Style */}
-        <Section index={1} title="Dry pot or soup?">
+        <Section index={2} title="Dry pot or soup?">
           <div className="grid grid-cols-3 gap-2">
             {STYLE_OPTIONS.map((opt) => (
               <button
@@ -142,7 +185,7 @@ export default function OnboardingPage() {
         </Section>
 
         {/* Q2 — Spice level */}
-        <Section index={2} title="How spicy can you take it?">
+        <Section index={3} title="How spicy can you take it?">
           <div className="flex items-center justify-between gap-1.5">
             {SPICE_LEVELS.map((lvl) => {
               const active = spice !== null && lvl.value <= spice;
@@ -189,7 +232,7 @@ export default function OnboardingPage() {
 
         {/* Q3 — Top ingredients */}
         <Section
-          index={3}
+          index={4}
           title="Pick your favorites"
           subtitle={`Up to ${MAX_INGREDIENTS} — ${ingredients.length}/${MAX_INGREDIENTS} selected`}
         >
@@ -229,7 +272,7 @@ export default function OnboardingPage() {
         </Section>
 
         {/* Q4 — Broth */}
-        <Section index={4} title="Your broth of choice?">
+        <Section index={5} title="Your broth of choice?">
           <div className="grid grid-cols-2 gap-2">
             {BROTH_OPTIONS.map((opt) => (
               <button
@@ -256,7 +299,7 @@ export default function OnboardingPage() {
         </Section>
 
         {/* Q5 — Vibe */}
-        <Section index={5} title="Your dining vibe?">
+        <Section index={6} title="Your dining vibe?">
           <div className="flex flex-col gap-2">
             {VIBE_OPTIONS.map((opt) => (
               <button
