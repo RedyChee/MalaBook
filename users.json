@@ -1,0 +1,373 @@
+[
+  {
+    "id": "u_001",
+    "name": "Wei Lin",
+    "age": 27,
+    "bio": "Da la or go home. I judge first dates by their tripe order.",
+    "flavorProfile": {
+      "style": "dry",
+      "spiceLevel": 5,
+      "topIngredients": [
+        "beef tripe",
+        "pork intestine",
+        "wide hor fun",
+        "lotus root",
+        "duck blood",
+        "pork belly"
+      ],
+      "brothPreference": "mala",
+      "vibe": "loud-group"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=WeiLin",
+    "flavorVector": [
+      0.9,
+      0.15,
+      1,
+      1,
+      0.9,
+      0.5,
+      0,
+      0.5,
+      0,
+      0,
+      0.5,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "u_002",
+    "name": "Joanne Tan",
+    "age": 24,
+    "bio": "Soup girl. Collagen broth + sweet potato noodles is my love language.",
+    "flavorProfile": {
+      "style": "soup",
+      "spiceLevel": 2,
+      "topIngredients": [
+        "sweet potato glass noodles",
+        "enoki mushrooms",
+        "tofu puffs",
+        "egg tofu",
+        "shiitake mushrooms",
+        "fish balls"
+      ],
+      "brothPreference": "mushroom",
+      "vibe": "intimate-booth"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=JoanneTan",
+    "flavorVector": [
+      0.15,
+      0.9,
+      0.4,
+      0.1,
+      0.25,
+      0.5,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0.5
+    ]
+  },
+  {
+    "id": "u_003",
+    "name": "Marcus Lim",
+    "age": 31,
+    "bio": "Both camps welcome. Engineer who optimizes the meat-to-veg ratio.",
+    "flavorProfile": {
+      "style": "both",
+      "spiceLevel": 3,
+      "topIngredients": [
+        "pork belly",
+        "luncheon meat",
+        "king oyster mushrooms",
+        "lotus root",
+        "instant noodles",
+        "cabbage"
+      ],
+      "brothPreference": "mala",
+      "vibe": "casual"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MarcusLim",
+    "flavorVector": [
+      0.5,
+      0.5,
+      0.6,
+      0.5,
+      0.9,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0,
+      1,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "u_004",
+    "name": "Priya Chen",
+    "age": 29,
+    "bio": "Tomato broth supremacist. Mala but make it gentle. I'll bring the kimchi.",
+    "flavorProfile": {
+      "style": "soup",
+      "spiceLevel": 1,
+      "topIngredients": [
+        "fish balls",
+        "cabbage",
+        "egg tofu",
+        "vermicelli",
+        "bok choy",
+        "fish cake"
+      ],
+      "brothPreference": "tomato",
+      "vibe": "intimate-booth"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=PriyaChen",
+    "flavorVector": [
+      0.15,
+      0.9,
+      0.2,
+      0.1,
+      0.15,
+      0.5,
+      1,
+      0,
+      0,
+      0.5,
+      0,
+      0,
+      0.5,
+      0.5
+    ]
+  },
+  {
+    "id": "u_005",
+    "name": "Zhi Hao",
+    "age": 26,
+    "bio": "Sichuan native in SG. If your peppercorn doesn't make your lips buzz, what are we doing.",
+    "flavorProfile": {
+      "style": "dry",
+      "spiceLevel": 4,
+      "topIngredients": [
+        "pork intestine",
+        "wood ear fungus",
+        "sweet potato glass noodles",
+        "beef tripe",
+        "lotus root",
+        "chicken gizzard"
+      ],
+      "brothPreference": "mala",
+      "vibe": "loud-group"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=ZhiHao",
+    "flavorVector": [
+      0.9,
+      0.15,
+      0.8,
+      1,
+      0.9,
+      0.5,
+      0,
+      0.5,
+      0.5,
+      0,
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "u_006",
+    "name": "Sarah Ong",
+    "age": 25,
+    "bio": "Vegetarian mala convert. Beancurd skin and lotus root, every time.",
+    "flavorProfile": {
+      "style": "both",
+      "spiceLevel": 2,
+      "topIngredients": [
+        "beancurd skin",
+        "lotus root",
+        "shiitake mushrooms",
+        "enoki mushrooms",
+        "tofu puffs",
+        "wood ear fungus",
+        "bok choy"
+      ],
+      "brothPreference": "mushroom",
+      "vibe": "casual"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=SarahOng",
+    "flavorVector": [
+      0.5,
+      0.5,
+      0.4,
+      0.5,
+      0.25,
+      0,
+      0.5,
+      0.5,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "u_007",
+    "name": "Daniel Koh",
+    "age": 33,
+    "bio": "Late-night supper guy. Find me at 2am stress-eating dry mala in Kovan.",
+    "flavorProfile": {
+      "style": "dry",
+      "spiceLevel": 4,
+      "topIngredients": [
+        "luncheon meat",
+        "instant noodles",
+        "fish cake",
+        "pork belly",
+        "taiwanese sausage",
+        "potato slices"
+      ],
+      "brothPreference": "mala",
+      "vibe": "casual"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=DanielKoh",
+    "flavorVector": [
+      0.9,
+      0.15,
+      0.8,
+      0.5,
+      0.9,
+      0.5,
+      0,
+      0.5,
+      0,
+      0,
+      1,
+      0,
+      0.5,
+      0
+    ]
+  },
+  {
+    "id": "u_008",
+    "name": "Mei Xin",
+    "age": 28,
+    "bio": "Half-and-half soup splitter. Mala on one side, herbal pork bone on the other.",
+    "flavorProfile": {
+      "style": "soup",
+      "spiceLevel": 3,
+      "topIngredients": [
+        "beef slices",
+        "quail eggs",
+        "wide hor fun",
+        "prawns",
+        "fish slices",
+        "enoki mushrooms"
+      ],
+      "brothPreference": "split",
+      "vibe": "intimate-booth"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MeiXin",
+    "flavorVector": [
+      0.15,
+      0.9,
+      0.6,
+      0.1,
+      0.55,
+      0.5,
+      0,
+      0,
+      0.5,
+      0,
+      0.5,
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "id": "u_009",
+    "name": "Aiden Goh",
+    "age": 30,
+    "bio": "I order duck blood without flinching. Looking for someone who won't either.",
+    "flavorProfile": {
+      "style": "soup",
+      "spiceLevel": 5,
+      "topIngredients": [
+        "duck blood",
+        "beef tripe",
+        "chicken gizzard",
+        "pork intestine",
+        "sweet potato glass noodles",
+        "lotus root"
+      ],
+      "brothPreference": "mala",
+      "vibe": "loud-group"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AidenGoh",
+    "flavorVector": [
+      0.15,
+      0.9,
+      1,
+      1,
+      0.9,
+      0.5,
+      0,
+      0.5,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "u_010",
+    "name": "Rachel Yeo",
+    "age": 23,
+    "bio": "First-time mala-er, slowly leveling up. Currently a brave xiao la.",
+    "flavorProfile": {
+      "style": "both",
+      "spiceLevel": 2,
+      "topIngredients": [
+        "enoki mushrooms",
+        "tofu puffs",
+        "fish balls",
+        "instant noodles",
+        "cheese tofu",
+        "egg tofu"
+      ],
+      "brothPreference": "tomato",
+      "vibe": "intimate-booth"
+    },
+    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=RachelYeo",
+    "flavorVector": [
+      0.5,
+      0.5,
+      0.4,
+      0.1,
+      0.15,
+      0.5,
+      0,
+      0,
+      0.5,
+      1,
+      0,
+      0,
+      0,
+      1
+    ]
+  }
+]
