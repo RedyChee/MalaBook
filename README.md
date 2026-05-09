@@ -252,9 +252,9 @@ gantt
 > **Goal by 4:30:** working end-to-end demo. Everything after is buffer.
 
 #### `12:45 – 1:45` — Onboarding Screen
-- [ ] 5-question form, single scroll, no fancy carousel
-- [ ] Controlled state with `useState`
-- [ ] On submit → encode profile → store in `sessionStorage` → route to `/matches`
+- [x] 5-question form, single scroll, no fancy carousel *(name + style + spice + ingredients + broth + vibe; chili-button row, grouped chip multi-select, 5-ingredient cap)*
+- [x] Controlled state with `useState`
+- [x] On submit → encode profile → store in `sessionStorage` → route to `/matches`
 
 #### `1:45 – 2:45` — Match Feed
 - [ ] Read user from sessionStorage, run matching client-side
