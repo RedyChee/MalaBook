@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { ArrowLeft, Check, Loader2, MapPin, Sparkles } from "lucide-react";
 import users from "@/data/users.json";
 import restaurants from "@/data/restaurants.json";
@@ -45,6 +45,7 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
   const [reply, setReply] = useState<Reply | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
+  const fetchedRef = useRef(false);
 
   // Bootstrap: load currentUser + restaurant
   useEffect(() => {
@@ -88,15 +89,16 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
     }
   }, [matched, me, restaurant, stage]);
 
-  // Kick off the Claude reply once we have everything and not revisiting
+  // Kick off the Claude reply once we have everything and not revisiting.
+  // Using a ref guard instead of stage-in-deps to avoid cleanup canceling
+  // the in-flight fetch when we transition to "calling".
   useEffect(() => {
     if (!me || !matched || !restaurant) return;
-    if (stage !== "loading-context") return;
+    if (fetchedRef.current) return;
     const existing = bookingForUser(matched.id);
-    if (existing) return; // handled above
-
+    if (existing) return; // handled by the revisit effect
+    fetchedRef.current = true;
     setStage("calling");
-    let cancelled = false;
 
     (async () => {
       try {
@@ -116,28 +118,16 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
           }),
         });
         const json = (await res.json()) as Reply;
-        if (cancelled) return;
         setReply(json);
-
-        // Stagger: show reaction first, then accept ~700ms later
         setTimeout(() => {
-          if (cancelled) return;
           setStage("reaction-shown");
-          setTimeout(() => {
-            if (cancelled) return;
-            setStage("accept-shown");
-          }, 900);
+          setTimeout(() => setStage("accept-shown"), 900);
         }, 700);
       } catch {
-        if (cancelled) return;
         setError("Couldn't reach them — try again.");
       }
     })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [me, matched, restaurant, stage, time.label]);
+  }, [me, matched, restaurant, time.label]);
 
   if (!matched) {
     return (

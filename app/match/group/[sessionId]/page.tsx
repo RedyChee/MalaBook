@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Check, Loader2, MapPin, Sparkles } from "lucide-react";
 import users from "@/data/users.json";
 import restaurants from "@/data/restaurants.json";
@@ -53,6 +53,8 @@ export default function GroupChatPage({ params }: { params: Promise<{ sessionId:
   const [confirmed, setConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
+  const fetchedRef = useRef(false);
+  const playedRef = useRef(false);
 
   // Bootstrap me + initial states
   useEffect(() => {
@@ -96,27 +98,26 @@ export default function GroupChatPage({ params }: { params: Promise<{ sessionId:
     }
   }, [parsed, sessionId, allRestaurants, members]);
 
-  // Fetch restaurant + replies if not confirmed
+  // Fetch restaurant + replies if not confirmed.
+  // Ref-guarded to avoid the cleanup canceling our own in-flight fetch
+  // when we call setRestaurant mid-stream.
   useEffect(() => {
     if (!me || !time || members.length === 0) return;
     if (confirmed) return;
-    if (restaurant) return; // already loaded
+    if (fetchedRef.current) return;
+    fetchedRef.current = true;
 
-    let cancelled = false;
     (async () => {
       try {
-        // 1. Pick the group restaurant
         const dsRes = await fetch("/api/group-datespot", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ me, members }),
         });
         const ds = (await dsRes.json()) as { restaurantId: string };
-        if (cancelled) return;
         const r = allRestaurants.find((x) => x.id === ds.restaurantId) ?? allRestaurants[0];
         setRestaurant(r);
 
-        // 2. Fetch replies for all members in one call
         const repRes = await fetch("/api/group-chat-reply", {
           method: "POST",
           headers: { "content-type": "application/json" },
@@ -128,48 +129,35 @@ export default function GroupChatPage({ params }: { params: Promise<{ sessionId:
           }),
         });
         const rep = (await repRes.json()) as { replies: Reply[] };
-        if (cancelled) return;
         setReplies(rep.replies);
       } catch {
-        if (cancelled) return;
         setError("Couldn't reach the crew — try again.");
       }
     })();
-    return () => {
-      cancelled = true;
-    };
-  }, [me, time, members, restaurant, confirmed, allRestaurants]);
+  }, [me, time, members, confirmed, allRestaurants]);
 
-  // Once replies arrive, sequentially play them out
+  // Once replies arrive, sequentially play them out.
+  // Ref-guarded so we never replay if memberStates updates trigger a deps change.
   useEffect(() => {
-    if (!replies || confirmed) return;
-    if (allReplied) return;
+    if (!replies || confirmed || allReplied) return;
+    if (playedRef.current) return;
+    playedRef.current = true;
 
-    let cancelled = false;
     const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
-
     (async () => {
       await sleep(400);
       for (let i = 0; i < members.length; i++) {
-        if (cancelled) return;
         setMemberStates((prev) => prev.map((s, idx) => (idx === i ? "typing-reaction" : s)));
         await sleep(900);
-        if (cancelled) return;
         setMemberStates((prev) => prev.map((s, idx) => (idx === i ? "reaction-shown" : s)));
         await sleep(700);
-        if (cancelled) return;
         setMemberStates((prev) => prev.map((s, idx) => (idx === i ? "typing-accept" : s)));
         await sleep(700);
-        if (cancelled) return;
         setMemberStates((prev) => prev.map((s, idx) => (idx === i ? "accept-shown" : s)));
         await sleep(900);
       }
-      if (!cancelled) setAllReplied(true);
+      setAllReplied(true);
     })();
-
-    return () => {
-      cancelled = true;
-    };
   }, [replies, members.length, confirmed, allReplied]);
 
   if (!parsed || members.length === 0) {
