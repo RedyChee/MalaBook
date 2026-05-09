@@ -18,7 +18,7 @@
       "brothPreference": "mala",
       "vibe": "loud-group"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=WeiLin",
+    "avatar": "/avatars/u_001.png",
     "flavorVector": [
       0.9,
       0.15,
@@ -55,7 +55,7 @@
       "brothPreference": "mushroom",
       "vibe": "intimate-booth"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=JoanneTan",
+    "avatar": "/avatars/u_002.png",
     "flavorVector": [
       0.15,
       0.9,
@@ -92,7 +92,7 @@
       "brothPreference": "mala",
       "vibe": "casual"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MarcusLim",
+    "avatar": "/avatars/u_003.png",
     "flavorVector": [
       0.5,
       0.5,
@@ -129,7 +129,7 @@
       "brothPreference": "tomato",
       "vibe": "intimate-booth"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=PriyaChen",
+    "avatar": "/avatars/u_004.png",
     "flavorVector": [
       0.15,
       0.9,
@@ -166,7 +166,7 @@
       "brothPreference": "mala",
       "vibe": "loud-group"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=ZhiHao",
+    "avatar": "/avatars/u_005.png",
     "flavorVector": [
       0.9,
       0.15,
@@ -204,7 +204,7 @@
       "brothPreference": "mushroom",
       "vibe": "casual"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=SarahOng",
+    "avatar": "/avatars/u_006.png",
     "flavorVector": [
       0.5,
       0.5,
@@ -241,7 +241,7 @@
       "brothPreference": "mala",
       "vibe": "casual"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=DanielKoh",
+    "avatar": "/avatars/u_007.png",
     "flavorVector": [
       0.9,
       0.15,
@@ -278,7 +278,7 @@
       "brothPreference": "split",
       "vibe": "intimate-booth"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=MeiXin",
+    "avatar": "/avatars/u_008.png",
     "flavorVector": [
       0.15,
       0.9,
@@ -315,7 +315,7 @@
       "brothPreference": "mala",
       "vibe": "loud-group"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AidenGoh",
+    "avatar": "/avatars/u_009.png",
     "flavorVector": [
       0.15,
       0.9,
@@ -352,7 +352,7 @@
       "brothPreference": "tomato",
       "vibe": "intimate-booth"
     },
-    "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=RachelYeo",
+    "avatar": "/avatars/u_010.png",
     "flavorVector": [
       0.5,
       0.5,
