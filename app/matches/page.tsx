@@ -47,6 +47,9 @@ export default function MatchesPage() {
     }
     try {
       const parsed = JSON.parse(raw) as User;
+      // Backwards compatibility for sessions stored before gender fields existed.
+      if (!parsed.gender) parsed.gender = "nonbinary";
+      if (!parsed.interestedIn) parsed.interestedIn = "everyone";
       setMe(parsed);
     } catch {
       router.replace("/");
@@ -54,10 +57,15 @@ export default function MatchesPage() {
     setBookings(listBookings());
   }, [router]);
 
-  const matches = useMemo(() => {
+  const soloMatches = useMemo(() => {
+    if (!me) return null;
+    return findTopMatches(me, allUsers, TOP_K, { genderFilter: true });
+  }, [me, allUsers]);
+  const groupMatches = useMemo(() => {
     if (!me) return null;
     return findTopMatches(me, allUsers, TOP_K);
   }, [me, allUsers]);
+  const matches = mode === "solo" ? soloMatches : groupMatches;
 
   useEffect(() => {
     if (!me || !matches) return;
@@ -173,30 +181,42 @@ export default function MatchesPage() {
           }}
         />
 
-        {cards.map((card, i) => (
-          <MatchCard
-            key={card.user.id}
-            card={card}
-            rank={i + 1}
-            mode={mode}
-            isSelected={selected.includes(card.user.id)}
-            disabled={
-              mode === "group" &&
-              !selected.includes(card.user.id) &&
-              selected.length >= GROUP_CAP
-            }
-            booking={bookings.find((b) => b.participantIds.includes(card.user.id)) ?? null}
-            onToggleSelect={() => {
-              setSelected((prev) =>
-                prev.includes(card.user.id)
-                  ? prev.filter((x) => x !== card.user.id)
-                  : prev.length >= GROUP_CAP
-                    ? prev
-                    : [...prev, card.user.id],
-              );
-            }}
-          />
-        ))}
+        {cards.length === 0 && mode === "solo" ? (
+          <div className="bg-white rounded-3xl border border-[var(--border)] p-6 text-center flex flex-col gap-2">
+            <div className="text-3xl">🌶️</div>
+            <div className="font-heading text-base text-[var(--mala-charcoal)]">
+              No solo matches with your current preferences
+            </div>
+            <div className="text-xs text-[var(--mala-charcoal)]/60 leading-snug">
+              Try Group hotpot 🍲 — gender preferences don&rsquo;t apply there.
+            </div>
+          </div>
+        ) : (
+          cards.map((card, i) => (
+            <MatchCard
+              key={card.user.id}
+              card={card}
+              rank={i + 1}
+              mode={mode}
+              isSelected={selected.includes(card.user.id)}
+              disabled={
+                mode === "group" &&
+                !selected.includes(card.user.id) &&
+                selected.length >= GROUP_CAP
+              }
+              booking={bookings.find((b) => b.participantIds.includes(card.user.id)) ?? null}
+              onToggleSelect={() => {
+                setSelected((prev) =>
+                  prev.includes(card.user.id)
+                    ? prev.filter((x) => x !== card.user.id)
+                    : prev.length >= GROUP_CAP
+                      ? prev
+                      : [...prev, card.user.id],
+                );
+              }}
+            />
+          ))
+        )}
 
         <div className="text-center text-[10px] uppercase tracking-widest text-[var(--mala-charcoal)]/30 mt-4 pb-32">
           Matched by 14-dim flavor vector · Blurbs by Claude Haiku 4.5

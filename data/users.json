@@ -3,6 +3,8 @@
     "id": "u_001",
     "name": "Wei Lin",
     "age": 27,
+    "gender": "woman",
+    "interestedIn": "men",
     "bio": "Da la or go home. I judge first dates by their tripe order.",
     "flavorProfile": {
       "style": "dry",
@@ -40,6 +42,8 @@
     "id": "u_002",
     "name": "Joanne Tan",
     "age": 24,
+    "gender": "woman",
+    "interestedIn": "men",
     "bio": "Soup girl. Collagen broth + sweet potato noodles is my love language.",
     "flavorProfile": {
       "style": "soup",
@@ -77,6 +81,8 @@
     "id": "u_003",
     "name": "Marcus Lim",
     "age": 31,
+    "gender": "man",
+    "interestedIn": "women",
     "bio": "Both camps welcome. Engineer who optimizes the meat-to-veg ratio.",
     "flavorProfile": {
       "style": "both",
@@ -114,6 +120,8 @@
     "id": "u_004",
     "name": "Priya Chen",
     "age": 29,
+    "gender": "woman",
+    "interestedIn": "everyone",
     "bio": "Tomato broth supremacist. Mala but make it gentle. I'll bring the kimchi.",
     "flavorProfile": {
       "style": "soup",
@@ -151,6 +159,8 @@
     "id": "u_005",
     "name": "Zhi Hao",
     "age": 26,
+    "gender": "man",
+    "interestedIn": "women",
     "bio": "Sichuan native in SG. If your peppercorn doesn't make your lips buzz, what are we doing.",
     "flavorProfile": {
       "style": "dry",
@@ -188,6 +198,8 @@
     "id": "u_006",
     "name": "Sarah Ong",
     "age": 25,
+    "gender": "woman",
+    "interestedIn": "women",
     "bio": "Vegetarian mala convert. Beancurd skin and lotus root, every time.",
     "flavorProfile": {
       "style": "both",
@@ -226,6 +238,8 @@
     "id": "u_007",
     "name": "Daniel Koh",
     "age": 33,
+    "gender": "man",
+    "interestedIn": "women",
     "bio": "Late-night supper guy. Find me at 2am stress-eating dry mala in Kovan.",
     "flavorProfile": {
       "style": "dry",
@@ -263,6 +277,8 @@
     "id": "u_008",
     "name": "Mei Xin",
     "age": 28,
+    "gender": "woman",
+    "interestedIn": "men",
     "bio": "Half-and-half soup splitter. Mala on one side, herbal pork bone on the other.",
     "flavorProfile": {
       "style": "soup",
@@ -300,6 +316,8 @@
     "id": "u_009",
     "name": "Aiden Goh",
     "age": 30,
+    "gender": "man",
+    "interestedIn": "everyone",
     "bio": "I order duck blood without flinching. Looking for someone who won't either.",
     "flavorProfile": {
       "style": "soup",
@@ -337,6 +355,8 @@
     "id": "u_010",
     "name": "Rachel Yeo",
     "age": 23,
+    "gender": "woman",
+    "interestedIn": "men",
     "bio": "First-time mala-er, slowly leveling up. Currently a brave xiao la.",
     "flavorProfile": {
       "style": "both",

@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Loader2, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { selfFlavorBars, heatColor } from "@/lib/compatibility";
+import { GENDER_OPTIONS, INTERESTED_IN_OPTIONS } from "@/lib/onboarding-options";
 import { deriveTitle } from "@/lib/title";
 import type { User } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -88,6 +89,7 @@ export default function ProfilePage() {
               {me.bio}
             </p>
           )}
+          <GenderChip gender={me.gender} interestedIn={me.interestedIn} />
           <ChiliRow level={me.flavorProfile.spiceLevel} />
         </section>
 
@@ -167,6 +169,29 @@ function FlavorBar({ label, caption, score }: { label: string; caption: string; 
         />
       </div>
       <p className="text-[11px] text-[var(--mala-charcoal)]/60 leading-tight">{caption}</p>
+    </div>
+  );
+}
+
+function GenderChip({
+  gender,
+  interestedIn,
+}: {
+  gender: User["gender"];
+  interestedIn: User["interestedIn"];
+}) {
+  const g = GENDER_OPTIONS.find((o) => o.value === gender);
+  const i = INTERESTED_IN_OPTIONS.find((o) => o.value === interestedIn);
+  if (!g || !i) return null;
+  return (
+    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[var(--border)]">
+      <span className="text-xs text-[var(--mala-charcoal)]/80 font-medium">
+        {g.emoji} {g.label}
+      </span>
+      <span className="text-[var(--mala-charcoal)]/30">·</span>
+      <span className="text-xs text-[var(--mala-charcoal)]/55">
+        seeking {i.label.toLowerCase()}
+      </span>
     </div>
   );
 }

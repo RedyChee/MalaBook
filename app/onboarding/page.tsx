@@ -9,7 +9,9 @@ import { Input } from "@/components/ui/input";
 import { encodeProfile } from "@/lib/flavor";
 import {
   BROTH_OPTIONS,
+  GENDER_OPTIONS,
   INGREDIENT_GROUPS,
+  INTERESTED_IN_OPTIONS,
   SPICE_LEVELS,
   STYLE_OPTIONS,
   VIBE_OPTIONS,
@@ -20,6 +22,8 @@ import type {
   DiningVibe,
   FlavorProfile,
   FlavorStyle,
+  Gender,
+  InterestedIn,
   SpiceLevel,
   User,
 } from "@/lib/types";
@@ -33,6 +37,8 @@ export default function OnboardingPage() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
+  const [gender, setGender] = useState<Gender | null>(null);
+  const [interestedIn, setInterestedIn] = useState<InterestedIn | null>(null);
   const [style, setStyle] = useState<FlavorStyle | null>(null);
   const [spice, setSpice] = useState<SpiceLevel | null>(null);
   const [ingredients, setIngredients] = useState<string[]>([]);
@@ -51,13 +57,15 @@ export default function OnboardingPage() {
         name.trim() &&
           ageNum !== null &&
           avatar &&
+          gender &&
+          interestedIn &&
           style &&
           spice !== null &&
           ingredients.length > 0 &&
           broth &&
           vibe,
       ),
-    [name, ageNum, avatar, style, spice, ingredients, broth, vibe],
+    [name, ageNum, avatar, gender, interestedIn, style, spice, ingredients, broth, vibe],
   );
 
   function toggleIngredient(item: string) {
@@ -71,7 +79,18 @@ export default function OnboardingPage() {
   }
 
   function handleSubmit() {
-    if (!isValid || !style || !spice || !broth || !vibe || !avatar || ageNum === null) return;
+    if (
+      !isValid ||
+      !style ||
+      !spice ||
+      !broth ||
+      !vibe ||
+      !avatar ||
+      !gender ||
+      !interestedIn ||
+      ageNum === null
+    )
+      return;
     setSubmitting(true);
     const profile: FlavorProfile = {
       style,
@@ -89,6 +108,8 @@ export default function OnboardingPage() {
       flavorProfile: profile,
       avatar,
       flavorVector: encodeProfile(profile),
+      gender,
+      interestedIn,
     };
     sessionStorage.setItem("currentUser", JSON.stringify(me));
     router.push("/matches");
@@ -159,8 +180,55 @@ export default function OnboardingPage() {
           </div>
         </Section>
 
+        {/* Gender */}
+        <Section index={2} title="I am">
+          <div className="grid grid-cols-3 gap-2">
+            {GENDER_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setGender(opt.value)}
+                className={cn(
+                  "rounded-2xl border-2 p-3 flex flex-col items-center gap-1 transition active:scale-[0.97]",
+                  gender === opt.value
+                    ? "border-[var(--mala-red)] bg-[var(--mala-red)]/10"
+                    : "border-[var(--border)] bg-white hover:border-[var(--mala-red)]/40",
+                )}
+              >
+                <div className="text-2xl">{opt.emoji}</div>
+                <div className="font-semibold text-sm leading-tight">{opt.label}</div>
+              </button>
+            ))}
+          </div>
+        </Section>
+
+        {/* Interested in */}
+        <Section index={3} title="Show me (for solo dates)" subtitle="Group hotpot stays open to all 🍲">
+          <div className="grid grid-cols-3 gap-2">
+            {INTERESTED_IN_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setInterestedIn(opt.value)}
+                className={cn(
+                  "rounded-2xl border-2 p-3 flex flex-col items-center gap-1 text-center transition active:scale-[0.97]",
+                  interestedIn === opt.value
+                    ? "border-[var(--mala-red)] bg-[var(--mala-red)]/10"
+                    : "border-[var(--border)] bg-white hover:border-[var(--mala-red)]/40",
+                )}
+              >
+                <div className="text-2xl">{opt.emoji}</div>
+                <div className="font-semibold text-sm leading-tight">{opt.label}</div>
+                <div className="text-[10px] text-[var(--mala-charcoal)]/55 leading-tight">
+                  {opt.desc}
+                </div>
+              </button>
+            ))}
+          </div>
+        </Section>
+
         {/* Q1 — Style */}
-        <Section index={2} title="Dry pot or soup?">
+        <Section index={4} title="Dry pot or soup?">
           <div className="grid grid-cols-3 gap-2">
             {STYLE_OPTIONS.map((opt) => (
               <button
@@ -185,7 +253,7 @@ export default function OnboardingPage() {
         </Section>
 
         {/* Q2 — Spice level */}
-        <Section index={3} title="How spicy can you take it?">
+        <Section index={5} title="How spicy can you take it?">
           <div className="flex items-center justify-between gap-1.5">
             {SPICE_LEVELS.map((lvl) => {
               const active = spice !== null && lvl.value <= spice;
@@ -232,7 +300,7 @@ export default function OnboardingPage() {
 
         {/* Q3 — Top ingredients */}
         <Section
-          index={4}
+          index={6}
           title="Pick your favorites"
           subtitle={`Up to ${MAX_INGREDIENTS} — ${ingredients.length}/${MAX_INGREDIENTS} selected`}
         >
@@ -272,7 +340,7 @@ export default function OnboardingPage() {
         </Section>
 
         {/* Q4 — Broth */}
-        <Section index={5} title="Your broth of choice?">
+        <Section index={7} title="Your broth of choice?">
           <div className="grid grid-cols-2 gap-2">
             {BROTH_OPTIONS.map((opt) => (
               <button
@@ -299,7 +367,7 @@ export default function OnboardingPage() {
         </Section>
 
         {/* Q5 — Vibe */}
-        <Section index={6} title="Your dining vibe?">
+        <Section index={8} title="Your dining vibe?">
           <div className="flex flex-col gap-2">
             {VIBE_OPTIONS.map((opt) => (
               <button

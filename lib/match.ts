@@ -10,9 +10,34 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   return dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
 
-export function findTopMatches(user: User, allUsers: User[], k = 3): Match[] {
-  return allUsers
-    .filter((o) => o.id !== user.id)
+export function isGenderMutualMatch(a: User, b: User): boolean {
+  // Non-binary always passes the filter — keeps the demo inclusive without
+  // forcing users to declare a stance toward enby people.
+  const aWantsB =
+    a.interestedIn === "everyone" ||
+    b.gender === "nonbinary" ||
+    (a.interestedIn === "women" && b.gender === "woman") ||
+    (a.interestedIn === "men" && b.gender === "man");
+  const bWantsA =
+    b.interestedIn === "everyone" ||
+    a.gender === "nonbinary" ||
+    (b.interestedIn === "women" && a.gender === "woman") ||
+    (b.interestedIn === "men" && a.gender === "man");
+  return aWantsB && bWantsA;
+}
+
+export function findTopMatches(
+  user: User,
+  allUsers: User[],
+  k = 3,
+  opts: { genderFilter?: boolean } = {},
+): Match[] {
+  const pool = allUsers.filter((o) => {
+    if (o.id === user.id) return false;
+    if (opts.genderFilter && !isGenderMutualMatch(user, o)) return false;
+    return true;
+  });
+  return pool
     .map((o) => ({ user: o, score: cosineSimilarity(user.flavorVector, o.flavorVector) }))
     .sort((a, b) => b.score - a.score)
     .slice(0, k);

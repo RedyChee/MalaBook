@@ -1,4 +1,4 @@
-import type { BrothPreference, DiningVibe, FlavorStyle } from "./types";
+import type { BrothPreference, DiningVibe, FlavorStyle, Gender, InterestedIn } from "./types";
 
 export const STYLE_OPTIONS: {
   value: FlavorStyle;
@@ -105,4 +105,21 @@ export const VIBE_OPTIONS: { value: DiningVibe; label: string; desc: string; emo
   { value: "loud-group", label: "Loud group", desc: "More the merrier", emoji: "🎉" },
   { value: "intimate-booth", label: "Intimate booth", desc: "Quiet two-tops", emoji: "🕯️" },
   { value: "casual", label: "Casual hawker", desc: "Plastic stools, real talk", emoji: "🪑" },
+];
+
+export const GENDER_OPTIONS: { value: Gender; label: string; emoji: string }[] = [
+  { value: "woman", label: "Woman", emoji: "♀️" },
+  { value: "man", label: "Man", emoji: "♂️" },
+  { value: "nonbinary", label: "Non-binary", emoji: "⚧️" },
+];
+
+export const INTERESTED_IN_OPTIONS: {
+  value: InterestedIn;
+  label: string;
+  emoji: string;
+  desc: string;
+}[] = [
+  { value: "women", label: "Women", emoji: "♀️", desc: "Show me women only" },
+  { value: "men", label: "Men", emoji: "♂️", desc: "Show me men only" },
+  { value: "everyone", label: "Everyone", emoji: "🌍", desc: "Open to all" },
 ];
