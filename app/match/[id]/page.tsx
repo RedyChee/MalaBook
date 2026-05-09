@@ -4,16 +4,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import { ArrowLeft, Flame, Loader2, MapPin, Sparkles, Send, X } from "lucide-react";
+import { ArrowLeft, Flame, ImageIcon, Loader2, MapPin, Sparkles, Send, X } from "lucide-react";
 import users from "@/data/users.json";
 import restaurants from "@/data/restaurants.json";
 import { cosineSimilarity } from "@/lib/match";
-import { spiceBadge } from "@/lib/spice-badge";
-import { computeCompatibility, heatColor } from "@/lib/compatibility";
+import { spiceBadge, sharedIngredients } from "@/lib/spice-badge";
+import { computeCompatibility } from "@/lib/compatibility";
 import { TIME_OPTIONS, bookingForUser } from "@/lib/bookings";
 import type { Booking } from "@/lib/bookings";
+import { getRatings } from "@/lib/feedback";
 import type { Restaurant, User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { FlavorCardModal } from "@/components/flavor-card-modal";
+import { CompatRadar } from "@/components/compat-radar";
 import { cn } from "@/lib/utils";
 
 type DateSpotResponse = {
@@ -35,6 +38,8 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
   const [error, setError] = useState<string | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [existingBooking, setExistingBooking] = useState<Booking | null>(null);
+  const [blurb, setBlurb] = useState<string | null>(null);
+  const [cardOpen, setCardOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -69,6 +74,27 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
         if (!cancelled) setDateSpot(json);
       } catch {
         if (!cancelled) setError("Couldn't fetch a date pick.");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [me, matched]);
+
+  useEffect(() => {
+    if (!me || !matched) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/blurb", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ userA: me, userB: matched }),
+        });
+        const json = (await res.json()) as { blurb?: string };
+        if (!cancelled && json?.blurb) setBlurb(json.blurb);
+      } catch {
+        /* fine — card renders without blurb */
       }
     })();
     return () => {
@@ -176,7 +202,7 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
           </div>
         </section>
 
-        {/* Compatibility breakdown */}
+        {/* Compatibility radar */}
         <section className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <Flame className="w-4 h-4 text-[var(--mala-red)]" />
@@ -184,17 +210,7 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
               Why you mala
             </h3>
           </div>
-          <div className="bg-white rounded-2xl border border-[var(--border)] p-4 flex flex-col gap-3.5">
-            {breakdown.axes.map((ax) => (
-              <CompatBar
-                key={ax.key}
-                label={ax.label}
-                score={ax.score}
-                caption={ax.caption}
-                shared={ax.shared}
-              />
-            ))}
-          </div>
+          <CompatRadar me={me} matched={matched} breakdown={breakdown} />
         </section>
 
         {/* AI date pick */}
@@ -207,6 +223,16 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
           </div>
           <DateSpotCard restaurant={restaurant} reason={dateSpot?.reason ?? null} error={error} />
         </section>
+
+        {/* Flavor card share CTA */}
+        <Button
+          onClick={() => setCardOpen(true)}
+          variant="outline"
+          className="h-12 rounded-2xl border-[var(--mala-orange)]/40 text-[var(--mala-orange)] font-semibold hover:bg-[var(--mala-orange)]/5"
+        >
+          <ImageIcon className="w-4 h-4 mr-1" />
+          Get our flavor card 🌶️
+        </Button>
       </div>
 
       <div className="sticky bottom-0 px-5 py-4 bg-[var(--mala-cream)]/95 backdrop-blur border-t border-[var(--border)]">
@@ -244,6 +270,21 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
           }}
         />
       )}
+
+      <FlavorCardModal
+        open={cardOpen}
+        onClose={() => setCardOpen(false)}
+        me={me}
+        matched={matched}
+        score={score}
+        blurb={blurb}
+        restaurant={restaurant}
+        shared={sharedIngredients(
+          me.flavorProfile.topIngredients,
+          matched.flavorProfile.topIngredients,
+          6,
+        )}
+      />
     </main>
   );
 }
@@ -355,6 +396,7 @@ function DateSpotCard({
         <span className="text-[var(--mala-charcoal)]/30">·</span>
         <span className="capitalize">{restaurant.style} pot</span>
       </div>
+      <CoupleRatingsStrip restaurantId={restaurant.id} />
       <p className="text-sm leading-snug text-[var(--mala-charcoal)]/80">{reason}</p>
       <div className="flex flex-wrap gap-1.5 pt-1 border-t border-[var(--border)]/60">
         {restaurant.signature.slice(0, 3).map((sig) => (
@@ -370,44 +412,17 @@ function DateSpotCard({
   );
 }
 
-function CompatBar({
-  label,
-  score,
-  caption,
-  shared,
-}: {
-  label: string;
-  score: number;
-  caption: string;
-  shared?: string[];
-}) {
-  const pct = Math.round(score * 100);
-  const color = heatColor(score);
+function CoupleRatingsStrip({ restaurantId }: { restaurantId: string }) {
+  const r = getRatings(restaurantId);
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-baseline justify-between gap-2">
-        <span className="text-xs font-semibold text-[var(--mala-charcoal)]">{label}</span>
-        <span className="text-[10px] font-mono text-[var(--mala-charcoal)]/45">{pct}%</span>
-      </div>
-      <div className="h-1.5 w-full rounded-full bg-[var(--mala-charcoal)]/8 overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all"
-          style={{ width: `${pct}%`, background: color }}
-        />
-      </div>
-      <p className="text-[11px] text-[var(--mala-charcoal)]/60 leading-tight">{caption}</p>
-      {shared && shared.length > 0 && (
-        <div className="flex flex-wrap gap-1 pt-1">
-          {shared.slice(0, 5).map((s) => (
-            <span
-              key={s}
-              className="text-[10px] px-1.5 py-0.5 rounded-full bg-[var(--mala-orange)]/10 text-[var(--mala-orange)] font-medium"
-            >
-              {s}
-            </span>
-          ))}
-        </div>
-      )}
+    <div className="rounded-xl bg-[var(--mala-orange)]/8 border border-[var(--mala-orange)]/20 px-3 py-2 flex items-center gap-2 flex-wrap text-[11px]">
+      <span className="font-semibold text-[var(--mala-orange)]">🌶️ {r.spiceFitMean.toFixed(1)} spice fit</span>
+      <span className="text-[var(--mala-charcoal)]/30">·</span>
+      <span className="font-semibold text-[var(--mala-red)]">💕 {r.chemistryMean.toFixed(1)} chemistry</span>
+      <span className="text-[var(--mala-charcoal)]/30">·</span>
+      <span className="text-[var(--mala-charcoal)]/70">{r.wouldMalaAgainPct}% would mala again</span>
+      <span className="text-[var(--mala-charcoal)]/30">·</span>
+      <span className="text-[var(--mala-charcoal)]/55">{r.coupleCount} MalaBook couples</span>
     </div>
   );
 }

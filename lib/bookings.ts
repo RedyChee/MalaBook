@@ -6,6 +6,7 @@ export type Booking = {
   when: string; // e.g. "Sat 7pm"
   caption: string; // e.g. "Weekend numb"
   createdAt: number;
+  completedAt?: number;
 };
 
 export type TimeOption = {
@@ -71,4 +72,43 @@ export function parseGroupSessionId(sessionId: string): { timeId: string; member
 
 export function bookingById(id: string): Booking | null {
   return listBookings().find((b) => b.id === id) ?? null;
+}
+
+export function markBookingCompleted(id: string): void {
+  if (!isClient()) return;
+  const all = listBookings();
+  const i = all.findIndex((b) => b.id === id);
+  if (i < 0) return;
+  all[i] = { ...all[i], completedAt: Date.now() };
+  sessionStorage.setItem(KEY, JSON.stringify(all));
+}
+
+const SEED_FLAG_KEY = "malabook:demo-seeded";
+
+// One-shot demo helper: seeds a "we already went" booking so the feedback loop
+// has something to act on at t=0. Idempotent per browser session.
+export function seedDemoCompletedBooking(opts: {
+  matchedUserId: string;
+  restaurantId: string;
+}): void {
+  if (!isClient()) return;
+  if (sessionStorage.getItem(SEED_FLAG_KEY)) return;
+  const id = makeBookingId("solo", [opts.matchedUserId]);
+  if (bookingById(id)) {
+    sessionStorage.setItem(SEED_FLAG_KEY, "1");
+    return;
+  }
+  const yesterday = Date.now() - 24 * 60 * 60 * 1000;
+  const booking: Booking = {
+    id,
+    type: "solo",
+    participantIds: [opts.matchedUserId],
+    restaurantId: opts.restaurantId,
+    when: "Last Sat 7pm",
+    caption: "The one we went on",
+    createdAt: yesterday - 60_000,
+    completedAt: yesterday,
+  };
+  saveBooking(booking);
+  sessionStorage.setItem(SEED_FLAG_KEY, "1");
 }

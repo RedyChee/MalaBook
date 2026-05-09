@@ -9,10 +9,18 @@ import users from "@/data/users.json";
 import restaurants from "@/data/restaurants.json";
 import { findTopMatches } from "@/lib/match";
 import { sharedIngredients, spiceBadge } from "@/lib/spice-badge";
-import { listBookings, makeGroupSessionId, TIME_OPTIONS } from "@/lib/bookings";
+import {
+  listBookings,
+  makeGroupSessionId,
+  seedDemoCompletedBooking,
+  TIME_OPTIONS,
+} from "@/lib/bookings";
 import type { Booking } from "@/lib/bookings";
+import { deriveBadges, BADGE_TONE_CLASSES } from "@/lib/badges";
+import { getFeedbackForBooking } from "@/lib/feedback";
 import type { Restaurant, User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { FeedbackSheet } from "@/components/feedback-sheet";
 import { cn } from "@/lib/utils";
 
 const TOP_K = 3;
@@ -37,6 +45,8 @@ export default function MatchesPage() {
   const [mode, setMode] = useState<"solo" | "group">("solo");
   const [selected, setSelected] = useState<string[]>([]);
   const [groupSheetOpen, setGroupSheetOpen] = useState(false);
+  const [feedbackBooking, setFeedbackBooking] = useState<Booking | null>(null);
+  const [feedbackTick, setFeedbackTick] = useState(0);
 
   useEffect(() => {
     const raw =
@@ -53,6 +63,16 @@ export default function MatchesPage() {
       setMe(parsed);
     } catch {
       router.replace("/");
+    }
+    // Seed a "we already went" demo booking so the feedback loop has a target
+    // on first load. Keyed off the top non-self user so the seed maps to a real
+    // user in the feed. Idempotent — runs once per session.
+    const firstOther = (users as User[]).find((u) => u.id !== (raw ? JSON.parse(raw).id : null));
+    if (firstOther) {
+      seedDemoCompletedBooking({
+        matchedUserId: firstOther.id,
+        restaurantId: "r_001",
+      });
     }
     setBookings(listBookings());
   }, [router]);
@@ -170,6 +190,8 @@ export default function MatchesPage() {
             restaurants={allRestaurants}
             open={plansOpen}
             onToggle={() => setPlansOpen((v) => !v)}
+            feedbackTick={feedbackTick}
+            onFeedback={(b) => setFeedbackBooking(b)}
           />
         )}
 
@@ -243,6 +265,25 @@ export default function MatchesPage() {
           onPick={(timeId) => {
             const sessionId = makeGroupSessionId(selected, timeId);
             router.push(`/match/group/${sessionId}`);
+          }}
+        />
+      )}
+
+      {feedbackBooking && (
+        <FeedbackSheet
+          open
+          onClose={() => setFeedbackBooking(null)}
+          bookingId={feedbackBooking.id}
+          restaurantId={feedbackBooking.restaurantId}
+          restaurantName={
+            allRestaurants.find((r) => r.id === feedbackBooking.restaurantId)?.name ?? "the spot"
+          }
+          matchedName={
+            allUsers.find((u) => u.id === feedbackBooking.participantIds[0])?.name ?? "your match"
+          }
+          onSubmitted={() => {
+            setFeedbackBooking(null);
+            setFeedbackTick((t) => t + 1);
           }}
         />
       )}
@@ -351,12 +392,16 @@ function PlansStrip({
   restaurants,
   open,
   onToggle,
+  feedbackTick,
+  onFeedback,
 }: {
   bookings: Booking[];
   users: User[];
   restaurants: Restaurant[];
   open: boolean;
   onToggle: () => void;
+  feedbackTick: number;
+  onFeedback: (b: Booking) => void;
 }) {
   const sorted = [...bookings].sort((a, b) => a.createdAt - b.createdAt);
   const phrase = bookings.length === 1 ? "1 numbing pilgrimage queued up 🌶️" : `${bookings.length} mala plans on deck 🌶️`;
@@ -388,27 +433,56 @@ function PlansStrip({
               .map((id) => users.find((u) => u.id === id)?.name)
               .filter(Boolean)
               .join(" + ");
+            const isCompleted = !!b.completedAt;
+            // Re-evaluate feedback status when feedbackTick changes
+            void feedbackTick;
+            const hasFeedback = isCompleted && getFeedbackForBooking(b.id) !== null;
+            const needsFeedback = isCompleted && !hasFeedback;
             return (
-              <Link
+              <div
                 key={b.id}
-                href={
-                  b.type === "group"
-                    ? `/match/group/${b.id}`
-                    : `/match/${b.participantIds[0]}/chat?time=${b.id.split(":")[0]}&booked=1`
-                }
-                className="bg-white rounded-xl border border-[var(--mala-red)]/15 px-3 py-2 flex items-center gap-2 hover:border-[var(--mala-red)]/40 transition"
+                className={cn(
+                  "bg-white rounded-xl border px-3 py-2 flex items-center gap-2 transition",
+                  needsFeedback
+                    ? "border-[var(--mala-orange)]/40"
+                    : "border-[var(--mala-red)]/15 hover:border-[var(--mala-red)]/40",
+                )}
               >
-                <div className="text-lg">{b.type === "group" ? "🍲" : "🌶️"}</div>
+                <div className="text-lg">
+                  {needsFeedback ? "🌶️" : b.type === "group" ? "🍲" : "🌶️"}
+                </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-xs font-semibold text-[var(--mala-charcoal)] truncate">
                     {r?.name ?? "—"} · {b.when}
                   </div>
                   <div className="text-[10px] text-[var(--mala-charcoal)]/55 truncate">
-                    {b.type === "group" ? `with ${ppl}` : `with ${ppl}`} · {b.caption}
+                    {isCompleted
+                      ? `with ${ppl} · ${hasFeedback ? "logged ✓" : "rate the night"}`
+                      : `with ${ppl} · ${b.caption}`}
                   </div>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-[var(--mala-red)]/40" />
-              </Link>
+                {needsFeedback ? (
+                  <button
+                    type="button"
+                    onClick={() => onFeedback(b)}
+                    className="text-[10px] uppercase tracking-wider px-2.5 py-1.5 rounded-lg bg-[var(--mala-orange)] text-[var(--mala-cream)] font-semibold whitespace-nowrap"
+                  >
+                    How was it? 🌶️
+                  </button>
+                ) : (
+                  <Link
+                    href={
+                      b.type === "group"
+                        ? `/match/group/${b.id}`
+                        : `/match/${b.participantIds[0]}/chat?time=${b.id.split(":")[0]}&booked=1`
+                    }
+                    aria-label="Open"
+                    className="text-[var(--mala-red)]/40 hover:text-[var(--mala-red)]"
+                  >
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                )}
+              </div>
             );
           })}
         </div>
@@ -476,6 +550,7 @@ function MatchCard({
               · {card.user.age}
             </span>
           </div>
+          <InlineBadges flavorProfile={card.user.flavorProfile} />
           <div className="text-[11px] text-[var(--mala-charcoal)]/55 leading-tight">
             {card.user.flavorProfile.style} · {card.user.flavorProfile.brothPreference} broth
           </div>
@@ -555,6 +630,27 @@ function MatchCard({
         </Button>
       )}
     </article>
+  );
+}
+
+function InlineBadges({ flavorProfile }: { flavorProfile: User["flavorProfile"] }) {
+  const badges = deriveBadges(flavorProfile).slice(0, 2);
+  if (badges.length === 0) return null;
+  return (
+    <div className="flex gap-1 flex-wrap mt-0.5 mb-1">
+      {badges.map((b) => (
+        <span
+          key={b.id}
+          className={cn(
+            "inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full border text-[9px] font-semibold leading-tight",
+            BADGE_TONE_CLASSES[b.tone],
+          )}
+        >
+          <span className="text-[10px] leading-none">{b.emoji}</span>
+          {b.label}
+        </span>
+      ))}
+    </div>
   );
 }
 

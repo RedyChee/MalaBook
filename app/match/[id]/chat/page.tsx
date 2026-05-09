@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { use, useEffect, useRef, useState } from "react";
-import { ArrowLeft, Check, Loader2, MapPin, Sparkles } from "lucide-react";
+import { ArrowLeft, Check, ImageIcon, Loader2, MapPin, Sparkles } from "lucide-react";
 import users from "@/data/users.json";
 import restaurants from "@/data/restaurants.json";
 import {
@@ -16,6 +16,9 @@ import {
 import type { Booking } from "@/lib/bookings";
 import type { Restaurant, User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { FlavorCardModal } from "@/components/flavor-card-modal";
+import { cosineSimilarity } from "@/lib/match";
+import { sharedIngredients } from "@/lib/spice-badge";
 import { cn } from "@/lib/utils";
 
 type Reply = { reaction: string; accept: string; source?: string };
@@ -45,7 +48,10 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
   const [reply, setReply] = useState<Reply | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
+  const [blurb, setBlurb] = useState<string | null>(null);
+  const [cardOpen, setCardOpen] = useState(false);
   const fetchedRef = useRef(false);
+  const blurbFetchedRef = useRef(false);
 
   // Bootstrap: load currentUser + restaurant
   useEffect(() => {
@@ -88,6 +94,27 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
       setStage("confirmed");
     }
   }, [matched, me, restaurant, stage]);
+
+  // Pre-fetch a compatibility blurb in the background so the flavor card has
+  // copy ready by the time the user hits Confirm.
+  useEffect(() => {
+    if (!me || !matched) return;
+    if (blurbFetchedRef.current) return;
+    blurbFetchedRef.current = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/blurb", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ userA: me, userB: matched }),
+        });
+        const json = (await res.json()) as { blurb?: string };
+        if (json?.blurb) setBlurb(json.blurb);
+      } catch {
+        /* fine — card renders without blurb */
+      }
+    })();
+  }, [me, matched]);
 
   // Kick off the Claude reply once we have everything and not revisiting.
   // Using a ref guard instead of stage-in-deps to avoid cleanup canceling
@@ -162,6 +189,9 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
     saveBooking(booking);
     setStage("confirmed");
     setConfirming(false);
+    // The earned moment — auto-pop the flavor card with a short delay so the
+    // confirm-state UI registers before the modal slides up.
+    setTimeout(() => setCardOpen(true), 600);
   };
 
   const userMessage = `I'm thinking ${restaurant.name} — ${time.label}? 🌶️`;
@@ -255,6 +285,14 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
               </div>
             </div>
             <Button
+              onClick={() => setCardOpen(true)}
+              variant="outline"
+              className="h-11 rounded-xl border-[var(--mala-orange)]/40 text-[var(--mala-orange)] font-semibold hover:bg-[var(--mala-orange)]/5"
+            >
+              <ImageIcon className="w-4 h-4 mr-1" />
+              View flavor card 🌶️
+            </Button>
+            <Button
               asChild
               variant="ghost"
               className="h-10 rounded-xl text-[var(--mala-charcoal)]/70"
@@ -277,6 +315,21 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
           </div>
         )}
       </div>
+
+      <FlavorCardModal
+        open={cardOpen}
+        onClose={() => setCardOpen(false)}
+        me={me}
+        matched={matched}
+        score={Math.round(cosineSimilarity(me.flavorVector, matched.flavorVector) * 100)}
+        blurb={blurb}
+        restaurant={restaurant}
+        shared={sharedIngredients(
+          me.flavorProfile.topIngredients,
+          matched.flavorProfile.topIngredients,
+          6,
+        )}
+      />
     </main>
   );
 }

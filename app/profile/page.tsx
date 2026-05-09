@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { selfFlavorBars, heatColor } from "@/lib/compatibility";
 import { GENDER_OPTIONS, INTERESTED_IN_OPTIONS } from "@/lib/onboarding-options";
 import { deriveTitle } from "@/lib/title";
+import { deriveBadges, BADGE_TONE_CLASSES, type Badge } from "@/lib/badges";
 import type { User } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -32,8 +33,9 @@ export default function ProfilePage() {
 
   const bars = useMemo(() => (me ? selfFlavorBars(me.flavorProfile) : null), [me]);
   const title = useMemo(() => (me ? deriveTitle(me.flavorProfile) : null), [me]);
+  const badges = useMemo(() => (me ? deriveBadges(me.flavorProfile) : null), [me]);
 
-  if (!me || !bars || !title) {
+  if (!me || !bars || !title || !badges) {
     return (
       <main className="flex flex-col h-full min-h-screen items-center justify-center text-[var(--mala-charcoal)]/50">
         <Loader2 className="w-6 h-6 animate-spin" />
@@ -101,6 +103,18 @@ export default function ProfilePage() {
           <div className="bg-white rounded-2xl border border-[var(--border)] p-4 flex flex-col gap-3.5">
             {bars.map((bar) => (
               <FlavorBar key={bar.key} label={bar.label} caption={bar.caption} score={bar.score} />
+            ))}
+          </div>
+        </section>
+
+        {/* Badges */}
+        <section className="flex flex-col gap-2">
+          <h3 className="text-[11px] uppercase tracking-widest text-[var(--mala-charcoal)]/55 font-semibold">
+            Your badges
+          </h3>
+          <div className="flex flex-wrap gap-1.5">
+            {badges.map((b) => (
+              <BadgePill key={b.id} badge={b} />
             ))}
           </div>
         </section>
@@ -193,6 +207,20 @@ function GenderChip({
         seeking {i.label.toLowerCase()}
       </span>
     </div>
+  );
+}
+
+function BadgePill({ badge }: { badge: Badge }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-xs font-semibold",
+        BADGE_TONE_CLASSES[badge.tone],
+      )}
+    >
+      <span className="text-sm leading-none">{badge.emoji}</span>
+      {badge.label}
+    </span>
   );
 }
 

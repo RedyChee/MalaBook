@@ -1,0 +1,22 @@
+{
+  "r_001": { "spiceFitMean": 4.6, "chemistryMean": 4.4, "wouldMalaAgainPct": 87, "coupleCount": 38 },
+  "r_002": { "spiceFitMean": 4.4, "chemistryMean": 4.5, "wouldMalaAgainPct": 84, "coupleCount": 26 },
+  "r_003": { "spiceFitMean": 4.1, "chemistryMean": 4.0, "wouldMalaAgainPct": 73, "coupleCount": 19 },
+  "r_004": { "spiceFitMean": 4.5, "chemistryMean": 4.6, "wouldMalaAgainPct": 89, "coupleCount": 31 },
+  "r_005": { "spiceFitMean": 3.9, "chemistryMean": 4.2, "wouldMalaAgainPct": 71, "coupleCount": 14 },
+  "r_006": { "spiceFitMean": 4.7, "chemistryMean": 4.3, "wouldMalaAgainPct": 91, "coupleCount": 47 },
+  "r_007": { "spiceFitMean": 4.2, "chemistryMean": 4.5, "wouldMalaAgainPct": 82, "coupleCount": 22 },
+  "r_008": { "spiceFitMean": 4.0, "chemistryMean": 3.9, "wouldMalaAgainPct": 76, "coupleCount": 17 },
+  "r_009": { "spiceFitMean": 4.3, "chemistryMean": 4.4, "wouldMalaAgainPct": 85, "coupleCount": 29 },
+  "r_010": { "spiceFitMean": 4.8, "chemistryMean": 4.7, "wouldMalaAgainPct": 94, "coupleCount": 58 },
+  "r_011": { "spiceFitMean": 4.1, "chemistryMean": 4.3, "wouldMalaAgainPct": 79, "coupleCount": 21 },
+  "r_012": { "spiceFitMean": 4.5, "chemistryMean": 4.2, "wouldMalaAgainPct": 86, "coupleCount": 33 },
+  "r_013": { "spiceFitMean": 3.8, "chemistryMean": 4.1, "wouldMalaAgainPct": 72, "coupleCount": 12 },
+  "r_014": { "spiceFitMean": 4.4, "chemistryMean": 4.5, "wouldMalaAgainPct": 88, "coupleCount": 35 },
+  "r_015": { "spiceFitMean": 4.2, "chemistryMean": 4.0, "wouldMalaAgainPct": 78, "coupleCount": 24 },
+  "r_016": { "spiceFitMean": 4.6, "chemistryMean": 4.4, "wouldMalaAgainPct": 90, "coupleCount": 41 },
+  "r_017": { "spiceFitMean": 4.0, "chemistryMean": 4.6, "wouldMalaAgainPct": 81, "coupleCount": 18 },
+  "r_018": { "spiceFitMean": 4.3, "chemistryMean": 4.1, "wouldMalaAgainPct": 83, "coupleCount": 27 },
+  "r_019": { "spiceFitMean": 4.5, "chemistryMean": 4.7, "wouldMalaAgainPct": 92, "coupleCount": 44 },
+  "r_020": { "spiceFitMean": 3.9, "chemistryMean": 4.3, "wouldMalaAgainPct": 75, "coupleCount": 16 }
+}

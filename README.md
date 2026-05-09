@@ -319,9 +319,41 @@ gantt
 
 ---
 
+### Block 4 — Round 2 Beyond MVP (legit-mala-app polish 🌶️)
+
+> **Goal:** make MalaBook feel like a real mala dating product, not a hackathon project.
+> Spec'd via /grill-me on 2026-05-09. Build order: badges → flavor card → feedback loop → radar. Each stands alone.
+
+#### B6 — Derived badges *(spice tier · pot identity · ingredient signatures)*
+- [x] Add `lib/badges.ts` — derive up to 4 badges from FlavorProfile (spice tier, pot identity, ingredient sigs)
+- [x] Render full badge collection on `/profile` between flavor bars and top ingredients
+- [x] Render top 1–2 inline badges next to name on every `/matches` card (solo + group)
+
+#### B1 — Shareable Flavor Card *(the demo headline)*
+- [x] Install `html-to-image` for PNG export
+- [x] Build `components/flavor-card.tsx` — square 1080×1080 mala-themed card (avatars · names · % match · blurb · restaurant pick · shared ingredients · `malabook.vercel.app` footer)
+- [x] Build `components/flavor-card-modal.tsx` — dialog with Download (always) + Share (mobile only, native Web Share API)
+- [x] Add "Get our flavor card 🌶️" button on `/match/[id]`
+- [x] Auto-open modal on chat-confirm success in `/match/[id]/chat` for the earned-moment reveal
+
+#### B2 — Post-date feedback loop *(closes the data flywheel)*
+- [x] Add `data/restaurant-ratings.json` — pre-seed all 20 restaurants with aggregate stats (spice fit · chemistry · would-mala-again % · couple count)
+- [x] Add `lib/feedback.ts` — `getRatings`, `submitFeedback`, `getFeedbackForBooking` (reads base + sessionStorage bumps)
+- [x] Extend `Booking` with `completedAt` + add `seedDemoCompletedBooking` so the demo opens with a "Your plans" entry waiting for feedback
+- [x] Replace plans-strip arrow chip with **"How was it? 🌶️"** CTA on completed bookings without feedback
+- [x] Build `components/feedback-sheet.tsx` — 5-tap spice fit · 5-tap chemistry · yes/no mala again · submit bumps aggregate count by 1
+- [x] Show aggregate ratings strip on `/match/[id]` restaurant card: "🌶️ 4.6 spice fit · 💕 4.4 chemistry · 87% would mala again · 38 MalaBook couples"
+
+#### B3 — Radar compatibility viz *(replaces F7 5-bars)*
+- [x] Build `components/compat-radar.tsx` — hand-rolled SVG, 5 axes at 72° increments, dual overlapping polygons (red=you, orange=them), animate fill-from-center on mount
+- [x] Reuse `selfFlavorBars` (per-user) + `computeCompatibility` (pairwise captions) from `lib/compatibility.ts`
+- [x] Replace 5-bar block on `/match/[id]` with `<CompatRadar />`; render Strongest / Stretch caption row beneath
+
+---
+
 ### Submission Window: 4:30 – 5:00 PM
 
-- [ ] Final commit + push
+- [x] Final commit + push *(Block 4 deployed)*
 - [x] Deploy to Vercel (or local backup ready) *(deployed early at ~11:15am — live at https://malabook.vercel.app)*
 - [ ] Submit per hackathon instructions (form, repo link, demo URL, video?)
 - [ ] **Submitted by 4:50 PM** — leaves 10 min for unforeseen issues
