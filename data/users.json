@@ -44,37 +44,37 @@
     "age": 24,
     "gender": "woman",
     "interestedIn": "men",
-    "bio": "Soup girl. Collagen broth + sweet potato noodles is my love language.",
+    "bio": "Soup girl who got curious about mala. Sweet potato glass noodles soaked in málà broth — that's my new religion.",
     "flavorProfile": {
       "style": "soup",
-      "spiceLevel": 2,
+      "spiceLevel": 3,
       "topIngredients": [
         "sweet potato glass noodles",
+        "instant noodles",
+        "lotus root",
         "enoki mushrooms",
-        "tofu puffs",
-        "egg tofu",
-        "shiitake mushrooms",
-        "fish balls"
+        "king oyster mushrooms",
+        "beancurd skin"
       ],
-      "brothPreference": "mushroom",
-      "vibe": "intimate-booth"
+      "brothPreference": "mala",
+      "vibe": "casual"
     },
     "avatar": "/avatars/u_002.png",
     "flavorVector": [
       0.15,
       0.9,
-      0.4,
-      0.1,
-      0.25,
+      0.6,
+      0.5,
+      0.9,
+      1,
+      0,
+      0.5,
+      1,
       0.5,
       0,
       0,
-      1,
-      1,
       0,
-      0,
-      0,
-      0.5
+      0
     ]
   },
   {
@@ -279,36 +279,36 @@
     "age": 28,
     "gender": "woman",
     "interestedIn": "men",
-    "bio": "Half-and-half soup splitter. Mala on one side, herbal pork bone on the other.",
+    "bio": "Half-and-half soup splitter — mala on one side, clear broth on the other. Casual hawker mala over fancy any day.",
     "flavorProfile": {
       "style": "soup",
       "spiceLevel": 3,
       "topIngredients": [
         "beef slices",
-        "quail eggs",
         "wide hor fun",
-        "prawns",
+        "lotus root",
+        "enoki mushrooms",
         "fish slices",
-        "enoki mushrooms"
+        "beancurd skin"
       ],
       "brothPreference": "split",
-      "vibe": "intimate-booth"
+      "vibe": "casual"
     },
     "avatar": "/avatars/u_008.png",
     "flavorVector": [
       0.15,
       0.9,
       0.6,
-      0.1,
+      0.5,
       0.55,
       0.5,
       0,
-      0,
+      0.5,
+      0.5,
+      0.5,
       0.5,
       0,
       0.5,
-      0,
-      1,
       0
     ]
   },
@@ -552,16 +552,16 @@
     "age": 24,
     "gender": "woman",
     "interestedIn": "everyone",
-    "bio": "Vegetarian — mushroom broth supremacy. Tofu in five forms or it's not a meal.",
+    "bio": "Vegetarian, mushroom-broth devotee — but I'll take a side of mala for the buzz. Glass noodles, lotus root, three kinds of mushroom.",
     "flavorProfile": {
       "style": "soup",
-      "spiceLevel": 1,
+      "spiceLevel": 2,
       "topIngredients": [
+        "sweet potato glass noodles",
         "enoki mushrooms",
         "shiitake mushrooms",
-        "tofu puffs",
-        "egg tofu",
-        "shanghai greens",
+        "king oyster mushrooms",
+        "beancurd skin",
         "lotus root"
       ],
       "brothPreference": "mushroom",
@@ -571,14 +571,14 @@
     "flavorVector": [
       0.15,
       0.9,
-      0.2,
+      0.4,
       0.5,
       0.25,
+      0.5,
       0,
       0.5,
+      1,
       0.5,
-      1,
-      1,
       0,
       0,
       0,
