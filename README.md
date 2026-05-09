@@ -284,7 +284,7 @@ gantt
 ### Submission Window: 4:30 – 5:00 PM
 
 - [ ] Final commit + push
-- [ ] Deploy to Vercel (or local backup ready)
+- [x] Deploy to Vercel (or local backup ready) *(deployed early at ~11:15am — live at https://malabook.vercel.app)*
 - [ ] Submit per hackathon instructions (form, repo link, demo URL, video?)
 - [ ] **Submitted by 4:50 PM** — leaves 10 min for unforeseen issues
 
