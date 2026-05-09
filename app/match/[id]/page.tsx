@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import { ArrowLeft, Flame, ImageIcon, Loader2, MapPin, Sparkles, Send, X } from "lucide-react";
+import { ArrowLeft, ChefHat, Flame, ImageIcon, Loader2, MapPin, Sparkles, Send, X } from "lucide-react";
 import users from "@/data/users.json";
 import restaurants from "@/data/restaurants.json";
 import { cosineSimilarity } from "@/lib/match";
@@ -13,10 +13,12 @@ import { computeCompatibility } from "@/lib/compatibility";
 import { TIME_OPTIONS, bookingForUser } from "@/lib/bookings";
 import type { Booking } from "@/lib/bookings";
 import { getRatings } from "@/lib/feedback";
-import type { Restaurant, User } from "@/lib/types";
+import type { AgentRunResponse, Restaurant, User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { FlavorCardModal } from "@/components/flavor-card-modal";
 import { CompatRadar } from "@/components/compat-radar";
+import { AgentTrace } from "@/components/agent-trace";
+import { DatePlanCard } from "@/components/date-plan-card";
 import { cn } from "@/lib/utils";
 
 type DateSpotResponse = {
@@ -40,6 +42,10 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
   const [existingBooking, setExistingBooking] = useState<Booking | null>(null);
   const [blurb, setBlurb] = useState<string | null>(null);
   const [cardOpen, setCardOpen] = useState(false);
+  const [agentRunning, setAgentRunning] = useState(false);
+  const [agentResult, setAgentResult] = useState<AgentRunResponse | null>(null);
+  const [agentError, setAgentError] = useState<string | null>(null);
+  const [planRevealed, setPlanRevealed] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -129,6 +135,35 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
     ? allRestaurants.find((r) => r.id === dateSpot.restaurantId) ?? null
     : null;
   const breakdown = computeCompatibility(me.flavorProfile, matched.flavorProfile);
+
+  const planMyDate = async () => {
+    if (!dateSpot || agentRunning) return;
+    setAgentError(null);
+    setAgentResult(null);
+    setPlanRevealed(false);
+    setAgentRunning(true);
+    try {
+      const res = await fetch("/api/plan-date", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          userA: me,
+          userB: matched,
+          restaurantId: dateSpot.restaurantId,
+        }),
+      });
+      const json = (await res.json()) as AgentRunResponse | { error: string };
+      if ("error" in json) {
+        setAgentError(json.error);
+      } else {
+        setAgentResult(json);
+      }
+    } catch {
+      setAgentError("Couldn't reach the planner. Try again.");
+    } finally {
+      // keep agentRunning true until the trace finishes animating
+    }
+  };
 
   return (
     <main className="flex flex-col h-full min-h-screen bg-[var(--mala-cream)]">
@@ -222,6 +257,57 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
             </h3>
           </div>
           <DateSpotCard restaurant={restaurant} reason={dateSpot?.reason ?? null} error={error} />
+        </section>
+
+        {/* Plan-my-date agent */}
+        <section className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <ChefHat className="w-4 h-4 text-[var(--mala-red)]" />
+            <h3 className="text-[11px] uppercase tracking-widest text-[var(--mala-charcoal)]/55 font-semibold">
+              Plan This Date — agent
+            </h3>
+          </div>
+
+          {!agentResult && !agentRunning && !agentError && (
+            <Button
+              onClick={planMyDate}
+              disabled={!dateSpot || !restaurant}
+              variant="outline"
+              className="h-12 rounded-2xl border-[var(--mala-red)]/40 text-[var(--mala-red)] font-semibold hover:bg-[var(--mala-red)]/5 disabled:opacity-50"
+            >
+              <Sparkles className="w-4 h-4 mr-1" />
+              Plan My Date with Claude
+            </Button>
+          )}
+
+          {(agentRunning || agentResult) && (
+            <AgentTrace
+              steps={agentResult?.trace ?? []}
+              running={agentRunning && !planRevealed}
+              onComplete={() => {
+                setPlanRevealed(true);
+                setAgentRunning(false);
+              }}
+            />
+          )}
+
+          {agentResult && planRevealed && (
+            <DatePlanCard plan={agentResult.plan} source={agentResult.source} />
+          )}
+
+          {agentError && (
+            <div className="rounded-2xl border border-[var(--border)] bg-white p-4 text-sm text-[var(--mala-charcoal)]/60 flex items-center justify-between gap-3">
+              <span>{agentError}</span>
+              <Button
+                onClick={planMyDate}
+                size="sm"
+                variant="outline"
+                className="h-8 rounded-full text-xs"
+              >
+                Retry
+              </Button>
+            </div>
+          )}
         </section>
 
         {/* Flavor card share CTA */}

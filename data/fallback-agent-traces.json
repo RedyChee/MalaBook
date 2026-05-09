@@ -1,0 +1,152 @@
+{
+  "u_001::u_005": {
+    "trace": [
+      {
+        "name": "get_restaurant_details",
+        "label": "Looking up Ri Ri Hong Mala Xiang Guo",
+        "summary": "People's Park Complex Food Centre · dry-style · spice 2–5 · $"
+      },
+      {
+        "name": "get_match_compatibility",
+        "label": "Comparing Wei Lin × Zhi Hao",
+        "summary": "85% sync · shared: beef tripe, pork intestine, lotus root · spice Δ 1"
+      },
+      {
+        "name": "pick_signature_dish",
+        "label": "Picking dishes at Ri Ri Hong Mala Xiang Guo",
+        "summary": "lotus root + beef tripe · matches beef tripe, lotus root"
+      }
+    ],
+    "plan": {
+      "headline": "Your Date at Ri Ri Hong Mala Xiang Guo, People's Park Complex Food Centre",
+      "timing": "Beat the lunchtime queues and grab seats at the hawker centre by 11:45, or come at 2pm when the crowd thins.",
+      "order": "Order the lotus root and beef tripe in the garlic-forward dry pot at spice level 4, leaning into the numbing end.",
+      "conversationStarter": "If you had to pick: are beef tripe's honeycomb pockets better at catching garlic, or is lotus root's crunch the real treasure?"
+    }
+  },
+  "u_005::u_001": {
+    "trace": [
+      {
+        "name": "get_restaurant_details",
+        "label": "Looking up Ri Ri Hong Mala Xiang Guo",
+        "summary": "People's Park Complex Food Centre · dry-style · spice 2–5 · $"
+      },
+      {
+        "name": "get_match_compatibility",
+        "label": "Comparing Wei Lin × Zhi Hao",
+        "summary": "85% sync · shared: beef tripe, pork intestine, lotus root · spice Δ 1"
+      },
+      {
+        "name": "pick_signature_dish",
+        "label": "Picking dishes at Ri Ri Hong Mala Xiang Guo",
+        "summary": "lotus root + beef tripe · matches beef tripe, lotus root"
+      }
+    ],
+    "plan": {
+      "headline": "Your Date at Ri Ri Hong Mala Xiang Guo, People's Park Complex Food Centre",
+      "timing": "Beat the lunchtime queues and grab seats at the hawker centre by 11:45, or come at 2pm when the crowd thins.",
+      "order": "Order the lotus root and beef tripe in the garlic-forward dry pot at spice level 4, leaning into the numbing end.",
+      "conversationStarter": "If you had to pick: are beef tripe's honeycomb pockets better at catching garlic, or is lotus root's crunch the real treasure?"
+    }
+  },
+  "u_001::u_009": {
+    "trace": [
+      {
+        "name": "get_restaurant_details",
+        "label": "Looking up Zhang Liang Mala Tang",
+        "summary": "Chinatown (Nankin Row) · soup-style · spice 1–5 · $$"
+      },
+      {
+        "name": "get_match_compatibility",
+        "label": "Comparing Wei Lin × Aiden Goh",
+        "summary": "77% sync · shared: beef tripe, pork intestine, lotus root, duck blood · spice Δ 0"
+      },
+      {
+        "name": "pick_signature_dish",
+        "label": "Picking dishes at Zhang Liang Mala Tang",
+        "summary": "mala bone broth + tomato base"
+      }
+    ],
+    "plan": {
+      "headline": "Your Date at Zhang Liang Mala Tang, Chinatown (Nankin Row)",
+      "timing": "This islandwide chain delivers predictable comfort, so book any weeknight and grab a booth where you can both watch the broth boil.",
+      "order": "Order the mala bone broth and tomato base — split the difference on their dry-vs-soup standoff, then load both with beef tripe, duck blood, pork intestine, and lotus root at full numbing throttle.",
+      "conversationStarter": "If you could only eat one of these four forever — tripe, intestine, lotus root, or duck blood — which would you pick and why?"
+    }
+  },
+  "u_009::u_001": {
+    "trace": [
+      {
+        "name": "get_restaurant_details",
+        "label": "Looking up Zhang Liang Mala Tang",
+        "summary": "Chinatown (Nankin Row) · soup-style · spice 1–5 · $$"
+      },
+      {
+        "name": "get_match_compatibility",
+        "label": "Comparing Wei Lin × Aiden Goh",
+        "summary": "77% sync · shared: beef tripe, pork intestine, lotus root, duck blood · spice Δ 0"
+      },
+      {
+        "name": "pick_signature_dish",
+        "label": "Picking dishes at Zhang Liang Mala Tang",
+        "summary": "mala bone broth + tomato base"
+      }
+    ],
+    "plan": {
+      "headline": "Your Date at Zhang Liang Mala Tang, Chinatown (Nankin Row)",
+      "timing": "This islandwide chain delivers predictable comfort, so book any weeknight and grab a booth where you can both watch the broth boil.",
+      "order": "Order the mala bone broth and tomato base — split the difference on their dry-vs-soup standoff, then load both with beef tripe, duck blood, pork intestine, and lotus root at full numbing throttle.",
+      "conversationStarter": "If you could only eat one of these four forever — tripe, intestine, lotus root, or duck blood — which would you pick and why?"
+    }
+  },
+  "u_001::u_007": {
+    "trace": [
+      {
+        "name": "get_restaurant_details",
+        "label": "Looking up Ri Ri Hong Mala Xiang Guo",
+        "summary": "People's Park Complex Food Centre · dry-style · spice 2–5 · $"
+      },
+      {
+        "name": "get_match_compatibility",
+        "label": "Comparing Wei Lin × Daniel Koh",
+        "summary": "70% sync · shared: pork belly · spice Δ 1"
+      },
+      {
+        "name": "pick_signature_dish",
+        "label": "Picking dishes at Ri Ri Hong Mala Xiang Guo",
+        "summary": "garlic-forward dry pot + lotus root"
+      }
+    ],
+    "plan": {
+      "headline": "Your Date at Ri Ri Hong Mala Xiang Guo, People's Park Complex Food Centre",
+      "timing": "Beat the lunchtime queues and arrive just before noon to grab a table at this iconic hawker stall.",
+      "order": "Order the garlic-forward dry pot and lotus root, built for spice level 4, mala style, both diners dry-pot devotees.",
+      "conversationStarter": "Wei Lin orders duck blood and offal without blinking—Daniel, what's the wildest ingredient you'd try to impress a date who loves pork belly as much as you do?"
+    }
+  },
+  "u_007::u_001": {
+    "trace": [
+      {
+        "name": "get_restaurant_details",
+        "label": "Looking up Ri Ri Hong Mala Xiang Guo",
+        "summary": "People's Park Complex Food Centre · dry-style · spice 2–5 · $"
+      },
+      {
+        "name": "get_match_compatibility",
+        "label": "Comparing Wei Lin × Daniel Koh",
+        "summary": "70% sync · shared: pork belly · spice Δ 1"
+      },
+      {
+        "name": "pick_signature_dish",
+        "label": "Picking dishes at Ri Ri Hong Mala Xiang Guo",
+        "summary": "garlic-forward dry pot + lotus root"
+      }
+    ],
+    "plan": {
+      "headline": "Your Date at Ri Ri Hong Mala Xiang Guo, People's Park Complex Food Centre",
+      "timing": "Beat the lunchtime queues and arrive just before noon to grab a table at this iconic hawker stall.",
+      "order": "Order the garlic-forward dry pot and lotus root, built for spice level 4, mala style, both diners dry-pot devotees.",
+      "conversationStarter": "Wei Lin orders duck blood and offal without blinking—Daniel, what's the wildest ingredient you'd try to impress a date who loves pork belly as much as you do?"
+    }
+  }
+}

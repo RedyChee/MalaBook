@@ -1,13 +1,16 @@
 import fs from "fs";
 import path from "path";
+import type { AgentTraceStep, DatePlan } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
 type BlurbCache = Record<string, string>;
 type DatespotCache = Record<string, { restaurantId: string; reason: string }>;
+type AgentCache = Record<string, { trace: AgentTraceStep[]; plan: DatePlan }>;
 
 let blurbCache: BlurbCache | null = null;
 let datespotCache: DatespotCache | null = null;
+let agentCache: AgentCache | null = null;
 
 function readJSON<T>(filename: string, fallback: T): T {
   try {
@@ -35,6 +38,36 @@ export function cachedDatespot(
   return (
     datespotCache[pairKey(aId, bId)] ?? datespotCache[pairKey(bId, aId)] ?? null
   );
+}
+
+export function cachedAgentRun(
+  aId: string,
+  bId: string,
+): { trace: AgentTraceStep[]; plan: DatePlan } | null {
+  if (!agentCache) agentCache = readJSON<AgentCache>("fallback-agent-traces.json", {});
+  return agentCache[pairKey(aId, bId)] ?? agentCache[pairKey(bId, aId)] ?? null;
+}
+
+export function genericAgentRun(restaurantName: string, neighborhood: string): {
+  trace: AgentTraceStep[];
+  plan: DatePlan;
+} {
+  return {
+    trace: [
+      {
+        name: "get_restaurant_details",
+        label: `Looking up ${restaurantName}`,
+        summary: `${neighborhood} · ready for a first mala date`,
+      },
+    ],
+    plan: {
+      headline: `Your Date at ${restaurantName}, ${neighborhood}`,
+      timing: "Weeknight, 7pm — beat the dinner queue and grab a corner table.",
+      order: "Split a yuanyang broth and order one dry pot to share — easy across spice tolerances.",
+      conversationStarter:
+        "What's the one mala ingredient you'd refuse to skip — and the one you'd never order?",
+    },
+  };
 }
 
 export const GENERIC_BLURB =

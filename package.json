@@ -10,6 +10,7 @@
     "smoke": "tsx scripts/smoke.ts",
     "smoke:match": "tsx scripts/match-smoke.ts",
     "pregen": "tsx scripts/pregen-fallbacks.ts",
+    "pregen:agent": "tsx scripts/pregen-agent-traces.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

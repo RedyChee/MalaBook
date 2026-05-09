@@ -42,3 +42,22 @@ export type Match = {
   user: User;
   score: number;
 };
+
+export type DatePlan = {
+  headline: string;
+  timing: string;
+  order: string;
+  conversationStarter: string;
+};
+
+export type AgentTraceStep = {
+  name: string;
+  label: string;
+  summary: string;
+};
+
+export type AgentRunResponse = {
+  trace: AgentTraceStep[];
+  plan: DatePlan;
+  source: "live" | "cache" | "generic";
+};
