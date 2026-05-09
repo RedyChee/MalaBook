@@ -10,6 +10,7 @@ import restaurants from "@/data/restaurants.json";
 import {
   TIME_OPTIONS,
   bookingForUser,
+  cancelBooking,
   makeBookingId,
   saveBooking,
 } from "@/lib/bookings";
@@ -298,6 +299,16 @@ export default function ChatPage({ params }: { params: Promise<{ id: string }> }
               className="h-10 rounded-xl text-[var(--mala-charcoal)]/70"
             >
               <Link href="/matches">Back to matches</Link>
+            </Button>
+            <Button
+              onClick={() => {
+                cancelBooking(makeBookingId("solo", [matched.id]));
+                router.push(`/match/${matched.id}`);
+              }}
+              variant="ghost"
+              className="h-9 rounded-xl text-[var(--mala-charcoal)]/55 hover:text-[var(--mala-red)] text-xs font-medium"
+            >
+              Cancel date
             </Button>
           </div>
         ) : showConfirm ? (

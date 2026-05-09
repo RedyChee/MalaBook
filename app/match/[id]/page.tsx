@@ -10,7 +10,7 @@ import restaurants from "@/data/restaurants.json";
 import { cosineSimilarity } from "@/lib/match";
 import { spiceBadge, sharedIngredients } from "@/lib/spice-badge";
 import { computeCompatibility } from "@/lib/compatibility";
-import { TIME_OPTIONS, bookingForUser } from "@/lib/bookings";
+import { TIME_OPTIONS, bookingForUser, cancelBooking } from "@/lib/bookings";
 import type { Booking } from "@/lib/bookings";
 import { getRatings } from "@/lib/feedback";
 import type { AgentRunResponse, Restaurant, User } from "@/lib/types";
@@ -323,16 +323,28 @@ export default function MatchDetailPage({ params }: { params: Promise<{ id: stri
 
       <div className="sticky bottom-0 px-5 py-4 bg-[var(--mala-cream)]/95 backdrop-blur border-t border-[var(--border)]">
         {existingBooking ? (
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="w-full h-14 rounded-2xl border-[var(--mala-red)]/40 text-[var(--mala-red)] font-semibold"
-          >
-            <Link href={`/match/${matched.id}/chat?time=${existingBooking.id.split(":")[0]}&booked=1`}>
-              🍲 Date booked · {existingBooking.when}
-            </Link>
-          </Button>
+          <div className="flex flex-col gap-2">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="w-full h-14 rounded-2xl border-[var(--mala-red)]/40 text-[var(--mala-red)] font-semibold"
+            >
+              <Link href={`/match/${matched.id}/chat?time=${existingBooking.id.split(":")[0]}&booked=1`}>
+                🍲 Date booked · {existingBooking.when}
+              </Link>
+            </Button>
+            <Button
+              onClick={() => {
+                cancelBooking(existingBooking.id);
+                setExistingBooking(null);
+              }}
+              variant="ghost"
+              className="h-9 rounded-xl text-[var(--mala-charcoal)]/60 hover:text-[var(--mala-red)] text-xs font-medium"
+            >
+              Cancel date
+            </Button>
+          </div>
         ) : (
           <Button
             onClick={() => setSheetOpen(true)}

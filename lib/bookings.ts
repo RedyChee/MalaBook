@@ -83,6 +83,12 @@ export function markBookingCompleted(id: string): void {
   sessionStorage.setItem(KEY, JSON.stringify(all));
 }
 
+export function cancelBooking(id: string): void {
+  if (!isClient()) return;
+  const remaining = listBookings().filter((b) => b.id !== id);
+  sessionStorage.setItem(KEY, JSON.stringify(remaining));
+}
+
 const SEED_FLAG_KEY = "malabook:demo-seeded";
 
 // One-shot demo helper: seeds a "we already went" booking so the feedback loop
