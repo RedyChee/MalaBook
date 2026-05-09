@@ -257,15 +257,15 @@ gantt
 - [x] On submit → encode profile → store in `sessionStorage` → route to `/matches`
 
 #### `1:45 – 2:45` — Match Feed
-- [ ] Read user from sessionStorage, run matching client-side
-- [ ] Render 3 cards
-- [ ] Call `/api/blurb` for each (parallel `Promise.all`)
-- [ ] Loading skeleton while blurbs generate
+- [x] Read user from sessionStorage, run matching client-side *(redirects to `/` if missing)*
+- [x] Render 3 cards *(avatar, name/age, % match badge, spice chili row, top shared ingredients chips, AI blurb, View Date Idea CTA)*
+- [x] Call `/api/blurb` for each (parallel `Promise.all`) *(fired in parallel; per-card update as each lands)*
+- [x] Loading skeleton while blurbs generate
 
 #### `2:45 – 3:35` — Match Detail + Date Card
-- [ ] Click card → route to `/match/[id]`
-- [ ] On load: call `/api/datespot`, render restaurant card
-- [ ] **"Suggest This Date"** button → toast "Sent! 🌶️"
+- [x] Click card → route to `/match/[id]`
+- [x] On load: call `/api/datespot`, render restaurant card *(name, nameZh, neighborhood, price, style, AI reason, signature chips)*
+- [x] **"Suggest This Date"** button → toast "Sent! 🌶️" *(sonner toast with match name)*
 
 #### `3:35 – 4:15` — Theme & Polish
 - [ ] Apply mala color palette globally
