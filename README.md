@@ -212,21 +212,21 @@ gantt
 > **Goal by lunch:** working API endpoints. Zero UI is fine.
 
 #### `9:10 – 9:40` — Setup
-- [ ] `npx create-next-app@latest malabook --ts --tailwind --app`
-- [ ] `npx shadcn@latest init` then add `button`, `card`, `slider`, `badge`, `input`
-- [ ] Add `ANTHROPIC_API_KEY` to `.env.local`
-- [ ] Smoke-test API call to `/v1/messages` — confirm it works
-- [ ] First git commit + push
+- [x] `npx create-next-app@latest malabook --ts --tailwind --app` *(scaffolded in-place; Next.js 16.2.6 + React 19 + Tailwind v4)*
+- [x] `npx shadcn@latest init` then add `button`, `card`, `slider`, `badge`, `input` *(also: `checkbox`, `label`, `sonner`)*
+- [x] Add `ANTHROPIC_API_KEY` to `.env.local`
+- [x] Smoke-test API call to `/v1/messages` — confirm it works *(`scripts/smoke.ts`, Haiku 4.5, 1.46s)*
+- [x] First git commit + push *(commit `5e75c37`)*
 
 #### `9:40 – 10:15` — Seed Data
-- [ ] `data/users.json` — 10 diverse profiles
-- [ ] `data/restaurants.json` — 6–8 real SG mala spots
-- [ ] Avatars via DiceBear: `https://api.dicebear.com/7.x/avataaars/svg?seed={name}`
+- [x] `data/users.json` — 10 diverse profiles
+- [x] `data/restaurants.json` — 6–8 real SG mala spots *(20 brands, full SG market)*
+- [x] Avatars via DiceBear: `https://api.dicebear.com/7.x/avataaars/svg?seed={name}` *(placeholders; real AI avatars to be swapped in by user)*
 
 #### `10:15 – 10:45` — Matching Engine
-- [ ] `lib/flavor.ts` — `encodeProfile(user)` → 7-dim vector
-- [ ] `lib/match.ts` — `cosineSimilarity(a, b)` and `findTopMatches(user, all, k=3)`
-- [ ] Test in a Node script — sensible matches?
+- [x] `lib/flavor.ts` — `encodeProfile(user)` → 7-dim vector *(actually 14-dim: 4 behavioral + 1 broth + 9 ingredient categories)*
+- [x] `lib/match.ts` — `cosineSimilarity(a, b)` and `findTopMatches(user, all, k=3)`
+- [x] Test in a Node script — sensible matches? *(`scripts/match-smoke.ts`: Wei Lin ↔ Zhi Hao at 94.9%, all encode-checks pass)*
 
 #### `10:45 – 11:20` — AI Route 1: Blurb
 - [ ] `app/api/blurb/route.ts` — POST `{ userA, userB }` → `{ blurb }`

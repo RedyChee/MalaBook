@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "smoke": "tsx scripts/smoke.ts",
+    "smoke:match": "tsx scripts/match-smoke.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
