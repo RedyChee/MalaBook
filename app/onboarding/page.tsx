@@ -24,7 +24,7 @@ import type {
 } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const MAX_INGREDIENTS = 5;
+const MAX_INGREDIENTS = 8;
 
 export default function OnboardingPage() {
   const router = useRouter();
