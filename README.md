@@ -268,11 +268,11 @@ gantt
 - [x] **"Suggest This Date"** button → toast "Sent! 🌶️" *(sonner toast with match name)*
 
 #### `3:35 – 4:15` — Theme & Polish
-- [ ] Apply mala color palette globally
-- [ ] ZCOOL XiaoWei font from Google Fonts for headers
-- [ ] Mobile frame: `max-w-[420px] mx-auto` with rounded corners + phone-like shadow
-- [ ] Chili icon ratings (lucide-react `Flame` or emoji)
-- [ ] Splash/landing page if time allows
+- [x] Apply mala color palette globally *(globals.css → CSS vars on bg/fg/primary/accent; every page consumes `var(--mala-*)`)*
+- [x] ZCOOL XiaoWei font from Google Fonts for headers *(loaded via `next/font/google` → `--font-zcool`, applied to `h1/h2/h3/.font-heading`)*
+- [x] Mobile frame: `max-w-[420px] mx-auto` with rounded corners + phone-like shadow *(charcoal body, `rounded-[40px]` card, soft drop-shadow)*
+- [x] Chili icon ratings (lucide-react `Flame` or emoji) *(🌶️ rows on matches & detail; `Flame` as brand mark)*
+- [x] Splash/landing page if time allows *(gradient hero + glow blobs + branded CTAs)*
 
 #### `4:15 – 4:30` — Demo Rehearsal
 - [ ] End-to-end run-through **twice**
